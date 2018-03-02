@@ -1,0 +1,3 @@
+[submodule "robolab-deploy"]
+	path = robolab-deploy
+	url = https://github.com/7HAL32/robolab-deploy
