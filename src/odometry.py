@@ -2,3 +2,4 @@
 # 				establish value exchange with main driving class via getters and setters
 
 #MarineL
+#Jana
