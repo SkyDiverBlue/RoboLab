@@ -20,8 +20,6 @@ class LineFollowing:
 
         self.offset = 0
 
-        return
-
 
     def colour_calibration(self): #in this function both luminance will be calibrated 
         self.black_luminance_value = 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue
@@ -57,10 +55,10 @@ class LineFollowing:
         turn = (Kp*error)+(Ki*integral)+(Kd*derivative)  
     
         
-    if self.left_touch_sensor.value(self) ==1 or self.right_touch_sensor.value() == 1:
+        if self.left_touch_sensor.value(self) ==1 or self.right_touch_sensor.value() == 1:
             ev3.Sound.speak('obstacle encountered')
             self.left_motor.stop()
             self.right_motor.stop() 
     
-colour_calibration(self)
-line_following(self)
+        self.colour_calibration()
+        self.line_following()
