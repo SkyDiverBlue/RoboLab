@@ -4,7 +4,7 @@
 import ev3dev.ev3 as ev3
 import time
 
-ev3.Sound.speak('line following has been initialised').wait()
+ev3.Sound.speak('line following has been initialised')
 
 class LineFollowing:
     def __init__(self, colour_sensor, motor_list, ts_list):
@@ -30,7 +30,7 @@ class LineFollowing:
         self.left_motor.run_timed(time_sp=500, speed_sp=100) 
         self.right_motor.run_timed(time_sp=500, speed_sp=-100) 
         
-        time.sleep (1)
+        time.sleep(1)
 
     # Startpositionen finden, später genauer definieren !!!
         self.white_luminance_value = 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue
@@ -64,7 +64,7 @@ class LineFollowing:
         turn = (Kp*error)+(Ki*integral)+(Kd*derivative)  
         
         
-        if self.left_touch_sensor.value(self) ==1 or self.right_touch_sensor.value() == 1:
+        if self.left_touch_sensor.value() ==1 or self.right_touch_sensor.value() == 1:
             ev3.Sound.speak('obstacle encountered')
             self.left_motor.stop()
             self.right_motor.stop() 
