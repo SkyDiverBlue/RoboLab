@@ -24,9 +24,17 @@ class LineFollowing:
 
 
 def colour_calibration(self): #in this function both luminance will be calibrated 
-    self.white_luminance_value = 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue
     self.black_luminance_value = 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue
-    
+    self.motor_left.run_timed(time_sp=500, speed_sp=200) 
+    duty_cycled(20)
+    self.motor_right.run_timed(time_sp=500, speed_sp=200) 
+    duty_cycled(-20)
+    # Startpositionen finden, später genauer definieren !!!
+    self.white_luminance_value = 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue
+    self.motor_left.run_timed(time_sp=500, speed_sp=200) 
+    duty_cycled(-20)
+    self.motor_right.run_timed(time_sp=500, speed_sp=200) 
+    duty_cycled(20)
     self.offset = (self.white_luminance_value + self.black_luminance_value) / 2
 
 
