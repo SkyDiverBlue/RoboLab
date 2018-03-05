@@ -11,9 +11,11 @@ import linefollowing as follow #imports the line following program as follow
 def run():
 # the execution of all code shall be started from within this function
     print('Hello World')
-    follow.LineFollowing(colour_sensor = ev3.ColorSensor('in2'),
+    line_follower = follow.LineFollowing(colour_sensor = ev3.ColorSensor('in2'),
                          motor_list = (ev3.LargeMotor('outB'), ev3.LargeMotor('outC')),
                          ts_list = (ev3.TouchSensor('in1'), ev3.TouchSensor('in4')))
+    line_follower.colour_calibration()
+    line_follower.line_following()
     #executes the line program
 
 
