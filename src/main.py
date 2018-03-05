@@ -12,8 +12,8 @@ def run():
 # the execution of all code shall be started from within this function
     print('Hello World')
     follow.LineFollowing(colour_sensor = ev3.ColorSensor('in2'),
-                         motor_list = ( ev3.LargeMotor('outB'), ev3.LargeMotor('outC')),
-                         ts_list = (ev3.TouchSensor('in1'), ev3.TouchSensor('in1')))
+                         motor_list = (ev3.LargeMotor('outB'), ev3.LargeMotor('outC')),
+                         ts_list = (ev3.TouchSensor('in1'), ev3.TouchSensor('in4')))
     #executes the line program
 
 
