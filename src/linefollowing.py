@@ -27,8 +27,8 @@ class LineFollowing:
         
         print('{},{},{}'.format(self.colour_sensor.red, self.colour_sensor.green, self.colour_sensor.blue))
         
-        self.left_motor.run_timed(time_sp=500, speed_sp=100) 
-        self.right_motor.run_timed(time_sp=500, speed_sp=-100) 
+        self.left_motor.run_timed(time_sp=300, speed_sp=-100) 
+        self.right_motor.run_timed(time_sp=300, speed_sp=100) 
         
         time.sleep(1)
 
@@ -37,13 +37,21 @@ class LineFollowing:
         
         print('{},{},{}'.format(self.colour_sensor.red, self.colour_sensor.green, self.colour_sensor.blue))
 
-        self.left_motor.run_timed(time_sp=500, speed_sp=-100) 
-        self.right_motor.run_timed(time_sp=500, speed_sp=100)
+        self.offset = (self.white_luminance_value + self.black_luminance_value) / 2  
+        
+        self.left_motor.run_timed(time_sp=100, speed_sp=200) 
+        self.right_motor.run_timed(time_sp=100, speed_sp=-200)
+        
+        if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.offset:
+
+            self.left_motor.stop()
+            self.right_motor.stop()
         
         time.sleep (1)
 
-        self.offset = (self.white_luminance_value + self.black_luminance_value) / 2
+
         
+       
 
     def line_following(self):
         actual_luminance = 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue
