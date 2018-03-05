@@ -23,11 +23,11 @@ class LineFollowing:
         return
 
 
-    def colour_calibration(self): #in this function both luminance will be calibrated 
-        self.white_luminance_value = 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue
-        self.black_luminance_value = 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue
+def colour_calibration(self): #in this function both luminance will be calibrated 
+    self.white_luminance_value = 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue
+    self.black_luminance_value = 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue
     
-        self.offset = (self.white_luminance_value + self.black_luminance_value) / 2
+    self.offset = (self.white_luminance_value + self.black_luminance_value) / 2
 
 
     def line_following(self):
