@@ -37,7 +37,9 @@ class LineFollowing:
         
         print('{},{},{}'.format(self.colour_sensor.red, self.colour_sensor.green, self.colour_sensor.blue))
 
-        self.offset = (self.white_luminance_value + self.black_luminance_value) / 2  
+        self.offset = (self.white_luminance_value + self.black_luminance_value) / 2
+
+        print(self.offset)
         
         self.left_motor.run_timed(time_sp=100, speed_sp=200) 
         self.right_motor.run_timed(time_sp=100, speed_sp=-200)
@@ -47,13 +49,14 @@ class LineFollowing:
             self.left_motor.stop()
             self.right_motor.stop()
         
-        time.sleep (1)
-
-
-        
+        time.sleep(1)   
        
 
     def line_following(self):
+        ev3.Sound.speak('calibration complete')
+
+        time.sleep(1)
+
         actual_luminance = 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue
         last_error=0
 
@@ -69,10 +72,22 @@ class LineFollowing:
         derivative = error - last_error
         error = last_error
 
-        turn = (Kp*error)+(Ki*integral)+(Kd*derivative)  
+        turn = (Kp*error)+(Ki*integral)+(Kd*derivative)
+
+        #luminance value for offset = 201.1286
+        #while luminance equal to calibrate luminance, the drive ahead. 
+        #If luminance increases -> wobble right
+        #If luminance decreases -> wobble left
+        #build in tolerance
+
+        while 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.offset:
+            self.left_motor.run_timed(time_sp=100, speed_sp=200)
+            self.right_motor.run_timed(time_sp=100, speed_sp=200)
+        else:
+            print('In if schleife')
+            self.left_motor.stop()
+            self.right_motor.stop()   
         
-        
-        if self.left_touch_sensor.value() ==1 or self.right_touch_sensor.value() == 1:
-            ev3.Sound.speak('obstacle encountered')
+        if self.left_touch_sensor.value() ==1 or self.right_touch_sensor.value() == 1: 
             self.left_motor.stop()
             self.right_motor.stop() 
