@@ -16,17 +16,17 @@ def line_following():
    
     while colour_sensor.value() == 1:
         left_motor.run_forever(speed_sp=500)
-        right_motor.run_forever(speed_sp=500)                
-        
-        if left_touch_sensor.value() ==1 or right_touch_sensor.value() == 1:
-            ev3.Sound.speak('obstacle encountered')
-            left_motor.stop()
-            right_motor.stop()    
+        right_motor.run_forever(speed_sp=500)                  
         
         if not colour_sensor.value() == 1:
             ev3.Sound.speak('no black detected')
             left_motor.stop()
             right_motor.stop()
+        
+    if left_touch_sensor.value() ==1 or right_touch_sensor.value() == 1:
+            ev3.Sound.speak('obstacle encountered')
+            left_motor.stop()
+            right_motor.stop() 
     
 
 line_following()
