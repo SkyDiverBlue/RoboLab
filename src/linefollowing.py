@@ -50,7 +50,7 @@ class LineFollowing:
             turn = (Kp*error)+(Ki*integral)+(Kd*derivative)  
     
         
-    if left_touch_sensor.value(self) ==1 or right_touch_sensor.value() == 1:
+    if self.left_touch_sensor.value(self) ==1 or self.right_touch_sensor.value() == 1:
             ev3.Sound.speak('obstacle encountered')
             self.left_motor.stop()
             self.right_motor.stop() 
