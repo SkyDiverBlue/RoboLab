@@ -95,24 +95,27 @@ class LineFollowing:
     #Farbe erkennen
         count=0
         while self.black_luminance_value != 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue and self.white_luminance_value != 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue:
-            if self.colour_sensor.red < 100 and self.colour_sensor.blue > 95:
+            if self.colour_sensor.red < 100 and self.colour_sensor.blue > 105:
                     self.blue_luminace_value = 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue
             else:
                 self.red_luminace_value = 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue
                 #Zentrieren
-            self.right_motor.run_timed(time_sp=100, speed_sp=100)
-            self.left_motor.run-timed(time_sp=100, speed_sp=100)
+            self.right_motor.run_timed(time_sp=5, speed_sp=5)
+            self.left_motor.run-timed(time_sp=5, speed_sp=5)
             #Drehen
-            self.right_motor.run_to_rel_position(position_sp=300, speed_sp=500)
+            self.right_motor.run_to_rel_position(position_sp=5, speed_sp=10)
             if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.black_luminance_value:
                 count = count+1
-            self.right_motor.run_to_rel_position(position_sp=300, speed_sp=500)
+                time.sleep(2)
+            self.right_motor.run_to_rel_position(position_sp=5, speed_sp=10)
             if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.black_luminance_value:
                 count = count+1
-            self.right_motor.run_to_rel_position(position_sp=300, speed_sp=500)
+                time.sleep(2)
+            self.right_motor.run_to_rel_position(position_sp=5, speed_sp=10)
             if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.black_luminance_value:
                 count = count+1
-            self.right_motor.run_to_rel_position(position_sp=300, speed_sp=500)
+                time.sleep(2)
+            self.right_motor.run_to_rel_position(position_sp=5, speed_sp=10)
             if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.black_luminance_value:
                 count = count+1
             print(count)
