@@ -90,3 +90,30 @@ class LineFollowing:
         if self.left_touch_sensor.value() ==1 or self.right_touch_sensor.value() == 1: 
             self.left_motor.stop()
             self.right_motor.stop() 
+
+# Crossroad
+    #Farbe erkennen
+        count=0
+        while self.black_luminance_value != 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue and self.white_luminance_value != 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue:
+            if self.colour_sensor.red < 100 and self.colour_sensor.blue > 95:
+                    self.blue_luminace_value = 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue
+            else:
+                self.red_luminace_value = 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue
+                #Zentrieren
+            self.right_motor.run_timed(time_sp=100, speed_sp=100)
+            self.left_motor.run-timed(time_sp=100, speed_sp=100)
+            #Drehen
+            self.right_motor.run_to_rel_position(position_sp=300, speed_sp=500)
+            if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.black_luminance_value:
+                count = count+1
+            self.right_motor.run_to_rel_position(position_sp=300, speed_sp=500)
+            if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.black_luminance_value:
+                count = count+1
+            self.right_motor.run_to_rel_position(position_sp=300, speed_sp=500)
+            if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.black_luminance_value:
+                count = count+1
+            self.right_motor.run_to_rel_position(position_sp=300, speed_sp=500)
+            if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.black_luminance_value:
+                count = count+1
+            print(count)
+
