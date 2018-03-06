@@ -55,16 +55,16 @@ class LineFollowing:
     def line_following(self):
         ev3.Sound.speak('calibration complete')
 
-        speed_base = 80
+        speed_base = 125
 
         last_error = 0
         derivative = 0
         integral = 0
         
 
-        Kp = 0.3 #Constant for the proportional controller (increase -> sharper turns, decrease -> smoother turns)
-        Ki = 0 #Contant with intergral (summ of running errors)
-        Kd = 0 #Constant with derivative (rate of change of the proportional value)
+        Kp = 0.07 #Constant for the proportional controller (increase -> sharper turns, decrease -> smoother turns)
+        Ki = 0.05 #Contant with intergral (summ of running errors)
+        Kd = 0.8 #Constant with derivative (rate of change of the proportional value)
                 
         #luminance value for offset = 201.1286
         #while luminance equal to calibrate luminance, the drive ahead. 
