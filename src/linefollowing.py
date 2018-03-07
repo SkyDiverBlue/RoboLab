@@ -108,7 +108,7 @@ class LineFollowing:
                
     def path_recognising(self):
 
-        if self.colour_sensor.bin_data('hhh')[0] < 100 and self.colour_sensor.bin_data('hhh')[2] > 105 or self.colour_sensor.value == self.colour_sensor.bin_data('hhh')[0] > 140 and self.colour_sensor.bin_data('hhh')[1] < 100 and self.colour_sensor.bin_data('hhh')[2] < 50:
+        if (self.colour_sensor.bin_data('hhh')[0] < 100 and self.colour_sensor.bin_data('hhh')[2] > 105) or (self.colour_sensor.bin_data('hhh')[0] > 140 and self.colour_sensor.bin_data('hhh')[1] < 90 and self.colour_sensor.bin_data('hhh')[2] < 45):
             print('colour')
                      
             
@@ -116,7 +116,7 @@ class LineFollowing:
 
             time.sleep(1)
             
-            self.movement.turn_left_relpos(p = 390, s = 100)
+            self.movement.tturn_left_relpos(p = 390, s = 100)
             
             while "running" in self.movement.right_motor.state:
                     if self.check_black() == True:
@@ -128,11 +128,11 @@ class LineFollowing:
 
             time.sleep(1)
 
-            self.movement.turn_right_relpos(p = 100, s = 100)
+            self.movement.tturn_right_relpos(p = 100, s = 100)
 
             time.sleep(1)
 
-            self.movement.turn_right_relpos(p = 390, s = 100)
+            self.movement.tturn_right_relpos(p = 390, s = 100)
 
             while 'running' in self.movement.right_motor.state:
                 if self.check_black() == True:
@@ -144,7 +144,7 @@ class LineFollowing:
 
             time.sleep(1)
             
-            self.movement.turn_right_relpos(p = 390, s = 100)
+            self.movement.tturn_right_relpos(p = 390, s = 100)
 
             while 'running' in self.movement.right_motor.state:
                 if self.check_black() == True:
@@ -156,7 +156,7 @@ class LineFollowing:
 
             time.sleep(1)
 
-            self.movement.turn_left_relpos(p = 1500, s = 100)
+            self.movement.tturn_left_relpos(p = 1500, s = 100)
 
             while self.movement.turn_left_relpos(p = 1500, s = 100):
                 if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.offset:
