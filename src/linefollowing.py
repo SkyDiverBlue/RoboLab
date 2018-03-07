@@ -90,32 +90,73 @@ class LineFollowing:
                 self.movement.ttleft_run_timed(t = 100, s1 = speed_base - turn, s2 = speed_base + turn)
                 
             last_error = error
+            
+            if self.colour_sensor.bin_data('hhh')[0] < 100 and self.colour_sensor.bin_data('hhh')[2] > 105 or self.colour_sensor.value == self.colour_sensor.bin_data('hhh')[0] > 140 and self.colour_sensor.bin_data('hhh')[1] < 100 and self.colour_sensor.bin_data('hhh')[2] < 50:
+            
+                break
         
-        if self.left_touch_sensor.value() ==1 or self.right_touch_sensor.value() == 1: 
+        if self.left_touch_sensor.value() ==1 or self.right_touch_sensor.value() == 1:
             
             self.movement.stop_run_timed()
+        
                
     def path_recognising(self):
-        if self.colour_sensor.value == colour_sensor.red < 100 and colour_sensor.blue > 105 or self.colour_sensor.value == colour_sensor.red > 140 and colour_sensor.green < 100 and colour_sensor.blue < 50:
+
+        black = None
+
+        if black == self.black_luminance_value:
+            black = True
+        
+        if self.colour_sensor.bin_data('hhh')[0] < 100 and self.colour_sensor.bin_data('hhh')[2] > 105 or self.colour_sensor.value == self.colour_sensor.bin_data('hhh')[0] > 140 and self.colour_sensor.bin_data('hhh')[1] < 100 and self.colour_sensor.bin_data('hhh')[2] < 50:
             print('colour')
+                      
+            self.movement.forward_relpos(p = 0.01, s = 50) #centered on point
 
-            self.movement.forward_relpos(p = 100, s = 200) #centered on point
+            time.sleep(1)
             
-            while self.movement.turn_left_relpos(p = 390, s = 100): #rotate left
-                if self.black_luminance_value == True:
-                    self.crossection_array[0] = 1 #left crossection
+            self.movement.turn_left_relpos(p = 390, s = 100)
+            
+            while "running" in self.movement.right_motor.state:
+                    if black == True:
+                        self.crossection_array[0] = 1 #left crossection
+                    break        
 
-            self.movement.turn_right_relpos(p =100, s = 100)
+            while 'running' in self.movement.left_motor.state:
+                time.sleep(0.05)
 
-            while self.movement.turn_right_relpos(p = 390, s = 100):
-                if self.black_luminance_value == True:
+            time.sleep(1)
+
+            self.movement.turn_right_relpos(p = 100, s = 100)
+
+            time.sleep(1)
+
+            self.movement.turn_right_relpos(p = 390, s = 100)
+
+            while 'running' in self.movement.right_motor.state:
+                if black == True:
                     self.crossection_array[1] = 1 #middle crossection
+                break 
 
-            while self.movement.turn_right_relpos(p = 390, s = 100):
-                if self.black_luminance_value == True:
+            while 'running' in self.movement.left_motor.state:
+                time.sleep(0.05)
+
+            time.sleep(1)
+            
+            self.movement.turn_right_relpos(p = 390, s = 100)
+
+            while 'running' in self.movement.right_motor.state:
+                if black == True:
                     self.crossection_array[2] = 1 #left crossection
+                break 
+            
+            while 'running' in self.movement.left_motor.state:
+                time.sleep(0.05)
 
-            while self.movement.turn_left_relpos(p = 1500, s = 100 ):
+            time.sleep(1)
+
+            self.movement.turn_left_relpos(p = 1500, s = 100)
+
+            while self.movement.turn_left_relpos(p = 1500, s = 100):
                 if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.offset:
                     self.movement.stop_run_timed()
         print(self.crossection_array)
