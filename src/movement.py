@@ -27,3 +27,14 @@ class Movement:
         self.left_motor.stop()
         self.right_motor.stop()
     
+    def turn_left_relpos(self, p, s):
+        self.motor_right.run_to_rel_pos(position_sp = p, speed_sp = s)
+
+    def turn_right_relpos(self, p, s):
+        self.motor_left.run_to_rel_pos(position_sp = p, speed_sp = s)
+
+    def forward_relpos(self, p , s):
+        self.motor_left.run_to_rel_pos(position_sp = p, speed_sp = s)
+        self.motor_right.run_to_rel_pos(position_sp = p, speed_sp = s)
+
+    
