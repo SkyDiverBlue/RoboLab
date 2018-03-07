@@ -21,6 +21,8 @@ class LineFollowing:
         
         self.offset = 0
 
+        self.crossection_array = [0,0,0]
+
     def colour_calibration(self): #in this function both luminance (black/white) will be calibrated
         ev3.Sound.speak('in colour calibration').wait()
         
@@ -29,7 +31,7 @@ class LineFollowing:
         
         #robot turns
                 
-        self.movement.turn_left_relpos(p = 400 , s = 200)
+        self.movement.tleft_run_timed(t = 400 , s = 200)
 
                        
         time.sleep(1)
@@ -42,7 +44,7 @@ class LineFollowing:
         
         #robot turns back
 
-        self.movement.tright_run_timed(t = 1000,s = 80)
+        self.movement.tright_run_timed(t = 1000, s = 80)
                
         #robot stops when it detects offset as luminance value
         if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.offset:
@@ -80,12 +82,12 @@ class LineFollowing:
 
             if error > 0:
                 
-                self.movement.ttright_run_timed(t =100, s1 = speed_base - turn, s2 = speed_base + turn)
+                self.movement.ttright_run_timed(t = 100, s1 = speed_base + turn, s2 = speed_base - turn)
                 error = last_error
                 
             else:
 
-                self.movement.ttleft_run_timed(t = 100, s1 = speed_base + turn, s2 = speed_base - turn)
+                self.movement.ttleft_run_timed(t = 100, s1 = speed_base - turn, s2 = speed_base + turn)
                 
             last_error = error
         
@@ -96,6 +98,35 @@ class LineFollowing:
     def path_recognising(self):
         if self.colour_sensor.value == colour_sensor.red < 100 and colour_sensor.blue > 105 or self.colour_sensor.value == colour_sensor.red > 140 and colour_sensor.green < 100 and colour_sensor.blue < 50:
             print('colour')
+
+            self.movement.forward_relpos(p = 100, s = 200) #centered on point
+            
+            while self.movement.turn_left_relpos(p = 390, s = 100): #rotate left
+                if self.black_luminance_value == True:
+                    self.crossection_array[0] = 1 #left crossection
+
+            self.movement.turn_right_relpos(p =100, s = 100)
+
+            while self.movement.turn_right_relpos(p = 390, s = 100):
+                if self.black_luminance_value == True:
+                    self.crossection_array[1] = 1 #middle crossection
+
+            while self.movement.turn_right_relpos(p = 390, s = 100):
+                if self.black_luminance_value == True:
+                    self.crossection_array[2] = 1 #left crossection
+
+            while self.movement.turn_left_relpos(p = 1500, s = 100 ):
+                if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.offset:
+                    self.movement.stop_run_timed()
+        print(self.crossection_array)
+
+
+
+
+
+
+            
+
 
         
 
