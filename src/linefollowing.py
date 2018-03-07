@@ -99,27 +99,29 @@ class LineFollowing:
             
             self.movement.stop_run_timed()
         
+    def check_black(self):
+        if (0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue) <= self.black_luminance_value+6:
+                print('black line')
+                return True
+        return False
+
                
     def path_recognising(self):
 
-        black = None
-
-        if black == self.black_luminance_value:
-            black = True
-        
         if self.colour_sensor.bin_data('hhh')[0] < 100 and self.colour_sensor.bin_data('hhh')[2] > 105 or self.colour_sensor.value == self.colour_sensor.bin_data('hhh')[0] > 140 and self.colour_sensor.bin_data('hhh')[1] < 100 and self.colour_sensor.bin_data('hhh')[2] < 50:
             print('colour')
-                      
-            self.movement.forward_relpos(p = 0.01, s = 50) #centered on point
+                     
+            
+            self.movement.forward_relpos(p = 1, s = 50) #centered on point
 
             time.sleep(1)
             
             self.movement.turn_left_relpos(p = 390, s = 100)
             
             while "running" in self.movement.right_motor.state:
-                    if black == True:
+                    if self.check_black() == True:
                         self.crossection_array[0] = 1 #left crossection
-                    break        
+                        break        
 
             while 'running' in self.movement.left_motor.state:
                 time.sleep(0.05)
@@ -133,9 +135,9 @@ class LineFollowing:
             self.movement.turn_right_relpos(p = 390, s = 100)
 
             while 'running' in self.movement.right_motor.state:
-                if black == True:
+                if self.check_black() == True:
                     self.crossection_array[1] = 1 #middle crossection
-                break 
+                    break 
 
             while 'running' in self.movement.left_motor.state:
                 time.sleep(0.05)
@@ -145,9 +147,9 @@ class LineFollowing:
             self.movement.turn_right_relpos(p = 390, s = 100)
 
             while 'running' in self.movement.right_motor.state:
-                if black == True:
+                if self.check_black() == True:
                     self.crossection_array[2] = 1 #left crossection
-                break 
+                    break 
             
             while 'running' in self.movement.left_motor.state:
                 time.sleep(0.05)
