@@ -7,19 +7,19 @@ import time
 ev3.Sound.speak('line following has been initialised')
 
 class LineFollowing:
-    def __init__(self, colour_sensor, motor_list, ts_list):
-        self.left_motor, self.right_motor = motor_list
-        
+    def __init__(self, colour_sensor, ts_list, movement):
+                
         self.colour_sensor = colour_sensor
         self.colour_sensor.mode = 'RGB-RAW' #Colour sensor is in Raw mode
 
         self.left_touch_sensor, self.right_touch_sensor = ts_list
 
+        self.movement = movement
+
         self.white_luminance_value = 0
         self.black_luminance_value = 0
-
+        
         self.offset = 0
-
 
     def colour_calibration(self): #in this function both luminance (black/white) will be calibrated
         ev3.Sound.speak('in colour calibration').wait()
@@ -28,9 +28,10 @@ class LineFollowing:
         print('{},{},{}'.format(self.colour_sensor.red, self.colour_sensor.green, self.colour_sensor.blue))
         
         #robot turns
-        self.left_motor.run_timed(time_sp=400, speed_sp=-200) 
-        self.right_motor.run_timed(time_sp=400, speed_sp=200) 
         
+        self.movement.tleft_run_timed(t = 400,s = 200)
+
+                       
         time.sleep(1)
 
         self.white_luminance_value = 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue
@@ -40,14 +41,13 @@ class LineFollowing:
         print(self.offset)
         
         #robot turns back
-        self.left_motor.run_timed(time_sp=1000, speed_sp=80) 
-        self.right_motor.run_timed(time_sp=1000, speed_sp=-80)
-        
+
+        self.movement.tright_run_timed(t = 1000,s = 80)
+               
         #robot stops when it detects offset as luminance value
         if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.offset:
 
-            self.left_motor.stop()
-            self.right_motor.stop()
+            self.movement.stop_run_timed()
         
         time.sleep(1)   
        
@@ -78,45 +78,24 @@ class LineFollowing:
             derivative = error - last_error
             turn = (Kp*error)+(Ki*integral)+(Kd*derivative)
 
-            if error > 0:                                  
-                self.right_motor.run_timed(time_sp=100, speed_sp=speed_base + turn)
-                self.left_motor.run_timed(time_sp=100, speed_sp=speed_base - turn)
+            if error > 0:
+                
+                self.movement.ttright_run_timed(t =100, s1 = speed_base - turn, s2 = speed_base + turn)
                 error = last_error
+                
             else:
-                self.right_motor.run_timed(time_sp=100, speed_sp=speed_base + turn)
-                self.left_motor.run_timed(time_sp=100, speed_sp=speed_base - turn)
+
+                self.movement.ttleft_run_timed(t = 100, s1 = speed_base + turn, s2 = speed_base - turn)
+                
             last_error = error
         
         if self.left_touch_sensor.value() ==1 or self.right_touch_sensor.value() == 1: 
-            self.left_motor.stop()
-            self.right_motor.stop() 
+            
+            self.movement.stop_run_timed()
+               
+    def path_recognising(self):
+        if self.colour_sensor.value == colour_sensor.red < 100 and colour_sensor.blue > 105 or self.colour_sensor.value == colour_sensor.red > 140 and colour_sensor.green < 100 and colour_sensor.blue < 50:
+            print('colour')
 
-# Crossroad
-    #Farbe erkennen
-        count=0
-        while self.black_luminance_value != 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue and self.white_luminance_value != 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue:
-            if self.colour_sensor.red < 100 and self.colour_sensor.blue > 105:
-                    self.blue_luminace_value = 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue
-            else:
-                self.red_luminace_value = 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue
-                #Zentrieren
-            self.right_motor.run_timed(time_sp=5, speed_sp=5)
-            self.left_motor.run-timed(time_sp=5, speed_sp=5)
-            #Drehen
-            self.right_motor.run_to_rel_position(position_sp=5, speed_sp=10)
-            if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.black_luminance_value:
-                count = count+1
-                time.sleep(2)
-            self.right_motor.run_to_rel_position(position_sp=5, speed_sp=10)
-            if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.black_luminance_value:
-                count = count+1
-                time.sleep(2)
-            self.right_motor.run_to_rel_position(position_sp=5, speed_sp=10)
-            if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.black_luminance_value:
-                count = count+1
-                time.sleep(2)
-            self.right_motor.run_to_rel_position(position_sp=5, speed_sp=10)
-            if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.black_luminance_value:
-                count = count+1
-            print(count)
+        
 
