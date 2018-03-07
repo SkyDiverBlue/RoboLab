@@ -28,8 +28,8 @@ class LineFollowing:
         print('{},{},{}'.format(self.colour_sensor.red, self.colour_sensor.green, self.colour_sensor.blue))
         
         #robot turns
-        
-        self.movement.tleft_run_timed(t = 400,s = 200)
+                
+        self.movement.turn_left_relpos(p = 400 , s = 200)
 
                        
         time.sleep(1)
