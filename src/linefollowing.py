@@ -186,11 +186,24 @@ class LineFollowing:
                 ('running left motor state')
                 if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.offset:
                     self.movement.stop_run_time()
-
-                   
-                break
+                    break
         print(self.crossection_array)
-        self.line_following()      
+        self.line_following()   
+    
+    def turn_to_right_intersestion(self):
+        executed_tr = False
+        self.movement.tturn_right_relpos(p = 150, s = 100)
+        self.movement.tturn_right_relpos(p = 500, s = 100)
+        if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.offset:
+                    self.movement.stop_run_timed()
+                    executed_tr = True
+    def turn_to_left_intersection(self):
+        executed_tl = False
+        self.movement.tturn_left_relpos(p = 150, s = 100)
+        self.movement.tturn_left_relpos(p = 500, s = 100)
+        if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.offset:
+                    self.movement.stop_run_timed()
+                    executed_tl = False
 
    
 
