@@ -42,6 +42,9 @@ class Movement:
         self.left_motor.run_to_rel_pos(position_sp = p, speed_sp = s)
         self.right_motor.run_to_rel_pos(position_sp = p, speed_sp = s)
 
+    def backward_relpos(self, p , s):
+        self.left_motor.run_to_rel_pos(position_sp = -p, speed_sp = s)
+        self.right_motor.run_to_rel_pos(position_sp = -p, speed_sp = s)
     def tturn_right_relpos(self, p, s):
         self.left_motor.run_to_rel_pos(position_sp = p, speed_sp = s)
         self.right_motor.run_to_rel_pos(position_sp = -p, speed_sp = s)

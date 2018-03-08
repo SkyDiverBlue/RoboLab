@@ -93,44 +93,42 @@ class LineFollowing:
                 
             last_error = error
             
-            if self.colour_sensor.bin_data('hhh')[0] < 100 and self.colour_sensor.bin_data('hhh')[2] > 105 or self.colour_sensor.value == self.colour_sensor.bin_data('hhh')[0] > 140 and self.colour_sensor.bin_data('hhh')[1] < 100 and self.colour_sensor.bin_data('hhh')[2] < 50:
+            if self.colour_sensor.bin_data('hhh')[0] < 100 and self.colour_sensor.bin_data('hhh')[2] > 105 or self.colour_sensor.bin_data('hhh')[0] > 140 and self.colour_sensor.bin_data('hhh')[1] < 100 and self.colour_sensor.bin_data('hhh')[2] < 50:
             
                 break
      
-            
-
-    def Touch_sensor(self):
-#Integration Touch Sensor, untested
-        if self.left_touch_sensor.value() ==1 or self.right_touch_sensor.value() == 1: 
-            #send message to server still missing
-            self.movement.stop_run_timed()
-
-            time.sleep(1)
-            
-            self.movement.tturn_left_relpos(p = 600, s = 100)
-            while 'running' in self.movement.tturn_left_relpos(p = 600, s = 100):
-                if  self.check_black() == True:
-                    self.movement.stop_run_timed()
-                    break
-            colour_calibration()
-                    
-
-
-
-        
+          
     def check_black(self):
         if (0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue) <= self.black_luminance_value+6:
                 print('black line')
                 return True
-        return False
+        return False          
+
+    def touch_sensor(self):
+#Integration Touch Sensor, untested
+        if self.left_touch_sensor.value() ==1 or self.right_touch_sensor.value() == 1: 
+            ev3.Sound.speak('path blocked')
+
+            self.movement.stop_run_timed()
+
+            time.sleep(1)
+            self.backward_relpos(p = 100 , s=50)
+            
+            self.movement.tturn_left_relpos(p = 600, s = 100)
+            while 'running' in self.movement.tturn_left_relpos(p = 1800, s = 80):
+                ('running left motor state')
+                if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.offset:
+                    self.movement.stop_run_timed() 
+                    break
+        self.line_following()      
+                    
 
                
     def path_recognising(self):
-
         if (self.colour_sensor.bin_data('hhh')[0] < 100 and self.colour_sensor.bin_data('hhh')[2] > 105) or (self.colour_sensor.bin_data('hhh')[0] > 120 and self.colour_sensor.bin_data('hhh')[2] < 50): 
                      
             
-            self.movement.forward_relpos(p = 110, s = 50) #centered on point
+            self.movement.forward_relpos(p = 200, s = 50) #centered on point
 
             time.sleep(5)
             
@@ -166,7 +164,7 @@ class LineFollowing:
 
             time.sleep(1)
             
-            self.movement.tturn_right_relpos(p = 390, s = 100)
+            self.movement.tturn_right_relpos(p = 200, s = 100)
 
             while 'running' in self.movement.right_motor.state:
                 ('running right3 motor state')
@@ -182,7 +180,7 @@ class LineFollowing:
 
             self.movement.tturn_left_relpos(p = 1500, s = 100)
 
-            while self.movement.turn_left_relpos(p = 1700, s = 80):
+            while self.movement.tturn_left_relpos(p = 1700, s = 80):
                 ('running left motor state')
                 if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.offset:
                     self.movement.stop_run_time()

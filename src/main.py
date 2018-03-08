@@ -18,6 +18,7 @@ def run():
     line_follower.colour_calibration()
     line_follower.line_following()
     line_follower.path_recognising()
+    line_follower.touch_sensor()
     
 
 
