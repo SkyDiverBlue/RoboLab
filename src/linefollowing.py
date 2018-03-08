@@ -1,3 +1,4 @@
+
 #right hand line follower
 #Pid controller
 
@@ -22,6 +23,7 @@ class LineFollowing:
         self.offset = 0
 
         self.crossection_array = [0,0,0]
+    
 
     def colour_calibration(self): #in this function both luminance (black/white) will be calibrated
         ev3.Sound.speak('in colour calibration').wait()
@@ -94,7 +96,10 @@ class LineFollowing:
             if self.colour_sensor.bin_data('hhh')[0] < 100 and self.colour_sensor.bin_data('hhh')[2] > 105 or self.colour_sensor.value == self.colour_sensor.bin_data('hhh')[0] > 140 and self.colour_sensor.bin_data('hhh')[1] < 100 and self.colour_sensor.bin_data('hhh')[2] < 50:
             
                 break
-        
+     
+            
+
+    def Touch_sensor(self):
 #Integration Touch Sensor, untested
         if self.left_touch_sensor.value() ==1 or self.right_touch_sensor.value() == 1: 
             #send message to server still missing
@@ -107,8 +112,7 @@ class LineFollowing:
                 if  self.check_black() == True:
                     self.movement.stop_run_timed()
                     break
-                    
-
+            colour_calibration()
                     
 
 
@@ -123,23 +127,24 @@ class LineFollowing:
                
     def path_recognising(self):
 
-        if (self.colour_sensor.bin_data('hhh')[0] < 100 and self.colour_sensor.bin_data('hhh')[2] > 105) or (self.colour_sensor.bin_data('hhh')[0] > 140 and self.colour_sensor.bin_data('hhh')[1] < 90 and self.colour_sensor.bin_data('hhh')[2] < 45):
-            print('colour')
+        if (self.colour_sensor.bin_data('hhh')[0] < 100 and self.colour_sensor.bin_data('hhh')[2] > 105) or (self.colour_sensor.bin_data('hhh')[0] > 120 and self.colour_sensor.bin_data('hhh')[2] < 50): 
                      
             
-            self.movement.forward_relpos(p = 1, s = 50) #centered on point
+            self.movement.forward_relpos(p = 110, s = 50) #centered on point
 
-            time.sleep(1)
+            time.sleep(5)
             
             self.movement.tturn_left_relpos(p = 390, s = 100)
             
             while "running" in self.movement.right_motor.state:
+                    print('running right1 motor state')
                     if self.check_black() == True:
                         self.crossection_array[0] = 1 #left crossection
                         break        
 
             while 'running' in self.movement.left_motor.state:
-                time.sleep(0.05)
+                    print('running left state')
+                    time.sleep(0.05)
 
             time.sleep(1)
 
@@ -150,11 +155,13 @@ class LineFollowing:
             self.movement.tturn_right_relpos(p = 390, s = 100)
 
             while 'running' in self.movement.right_motor.state:
+                print('running right2 motor state')
                 if self.check_black() == True:
                     self.crossection_array[1] = 1 #middle crossection
                     break 
 
             while 'running' in self.movement.left_motor.state:
+                ('running left motor state')
                 time.sleep(0.05)
 
             time.sleep(1)
@@ -162,29 +169,29 @@ class LineFollowing:
             self.movement.tturn_right_relpos(p = 390, s = 100)
 
             while 'running' in self.movement.right_motor.state:
+                ('running right3 motor state')
                 if self.check_black() == True:
                     self.crossection_array[2] = 1 #left crossection
                     break 
             
             while 'running' in self.movement.left_motor.state:
+                ('running left motor state')
                 time.sleep(0.05)
 
             time.sleep(1)
 
             self.movement.tturn_left_relpos(p = 1500, s = 100)
 
-            while self.movement.turn_left_relpos(p = 1500, s = 100):
+            while self.movement.turn_left_relpos(p = 1700, s = 80):
+                ('running left motor state')
                 if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.offset:
-                    self.movement.stop_run_timed()
+                    self.movement.stop_run_time()
+
+                   
+                break
         print(self.crossection_array)
+        self.line_following()      
 
+   
 
-
-
-
-
-            
-
-
-        
-
+  

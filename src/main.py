@@ -2,7 +2,7 @@
 
 import ev3dev.ev3 as ev3
 from planet import Direction, Planet
-from communication import Communication
+
 
 import linefollowing as follow #imports the line following program as follow
 from movement import Movement
@@ -18,6 +18,9 @@ def run():
     line_follower.colour_calibration()
     line_follower.line_following()
     line_follower.path_recognising()
+    
+
+
 
 if __name__ == '__main__':
     run()
