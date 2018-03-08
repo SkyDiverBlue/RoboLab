@@ -16,9 +16,10 @@ def run():
     line_follower = follow.LineFollowing(colour_sensor = ev3.ColorSensor('in2'),
                          ts_list = (ev3.TouchSensor('in1'), ev3.TouchSensor('in4')), movement=movement_functions)
     line_follower.colour_calibration()
-    line_follower.line_following()
-    line_follower.path_recognising()
-    line_follower.touch_sensor()
+    while True:
+        line_follower.line_following()
+        line_follower.path_recognising()
+        line_follower.touch_sensor()
     
 
 

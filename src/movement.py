@@ -1,4 +1,4 @@
-
+import time
 
 class Movement: 
     def __init__(self, motor_list):
@@ -22,8 +22,7 @@ class Movement:
     def ttright_run_timed(self, t, s1, s2): #for PID controller
         self.right_motor.run_timed(time_sp= t, speed_sp = s1) 
         self.left_motor.run_timed(time_sp=t, speed_sp= s2)
-        self.right_motor.position()
-        self.left_motor.position() 
+      
 
     def ttleft_run_timed(self, t, s1, s2): #for PID controller
         self.left_motor.run_timed(time_sp= t, speed_sp = s1) 
@@ -32,6 +31,14 @@ class Movement:
     def stop_run_timed(self):
         self.left_motor.stop()
         self.right_motor.stop()
+
+    def wait_left(self):
+        while "running" in self.left_motor.state:
+            time.sleep(0.1)
+
+    def wait_right(self):
+        while "running" in self.right_motor.state:
+            time.sleep(0.1)
 
     #run relative position
     
@@ -56,9 +63,6 @@ class Movement:
         self.left_motor.run_to_rel_pos(position_sp = -p, speed_sp = s)
         self.right_motor.run_to_rel_pos(position_sp = p, speed_sp = s)
 
-    def  tturn_left_relpos(self, p, s):
-        self.left_motor.run_to_rel_pos(position_sp = p, speed_sp = s)
-        self.right_motor.run_to_rel_pos(position_sp = -p, speed_sp = s)
 
         
     def get_right_pos(self):

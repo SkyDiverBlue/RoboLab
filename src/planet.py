@@ -2,7 +2,7 @@
 
 from enum import IntEnum, unique
 from typing import List, Optional, Tuple, Dict
-from linefollowing import turn_to_left_intersection(self), turn_to_right_intersestion(self)
+
 # IMPORTANT NOTE: DO NOT IMPORT THE ev3dev.ev3 MODULE IN THIS FILE
 
 
