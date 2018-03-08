@@ -9,6 +9,7 @@ class Movement:
     def forward_run_timed(self, t, s):
         self.left_motor.run_timed(time_sp = t, speed_sp = s) 
         self.right_motor.run_timed(time_sp = t, speed_sp= s)
+
     
     def tright_run_timed(self, t, s):
         self.right_motor.run_timed(time_sp= t, speed_sp = -s) 
@@ -21,6 +22,8 @@ class Movement:
     def ttright_run_timed(self, t, s1, s2): #for PID controller
         self.right_motor.run_timed(time_sp= t, speed_sp = s1) 
         self.left_motor.run_timed(time_sp=t, speed_sp= s2)
+        self.right_motor.position()
+        self.left_motor.position() 
 
     def ttleft_run_timed(self, t, s1, s2): #for PID controller
         self.left_motor.run_timed(time_sp= t, speed_sp = s1) 
