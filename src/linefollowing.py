@@ -95,24 +95,9 @@ class LineFollowing:
             
                 break
         
-#Integration Touch Sensor, untested
-        if self.left_touch_sensor.value() ==1 or self.right_touch_sensor.value() == 1: 
-            #send message to server still missing
-            self.movement.stop_run_timed()
-
-            time.sleep(1)
+        if self.left_touch_sensor.value() ==1 or self.right_touch_sensor.value() == 1:
             
-            self.movement.tturn_left_relpos(p = 600, s = 100)
-            while 'running' in self.movement.tturn_left_relpos(p = 600, s = 100):
-                if  self.check_black() == True:
-                    self.movement.stop_run_timed()
-                    break
-                    
-
-                    
-
-
-
+            self.movement.stop_run_timed()
         
     def check_black(self):
         if (0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue) <= self.black_luminance_value+6:
@@ -127,7 +112,7 @@ class LineFollowing:
             print('colour')
                      
             
-            self.movement.forward_relpos(p = 1, s = 50) #centered on point
+            self.movement.forward_relpos(p = 10, s = 50) #centered on point
 
             time.sleep(1)
             
@@ -177,6 +162,26 @@ class LineFollowing:
                 if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.offset:
                     self.movement.stop_run_timed()
         print(self.crossection_array)
+
+
+    #pivot to certain intersections
+
+    def turn_to_right_intersestion(self):
+        executed_tr = False
+        self.movement.tturn_right_relpos(p = 150, s = 100)
+        self.movement.tturn_right_relpos(p = 500, s = 100)
+        if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.offset:
+                    self.movement.stop_run_timed()
+                    executed_tr = True
+    def turn_to_left_intersection(self):
+        executed_tl = False
+        self.movement.tturn_left_relpos(p = 150, s = 100)
+        self.movement.tturn_left_relpos(p = 500, s = 100)
+        if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.offset:
+                    self.movement.stop_run_timed()
+                    executed_tl = False
+
+
 
 
 
