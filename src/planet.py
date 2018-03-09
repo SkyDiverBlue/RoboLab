@@ -9,9 +9,6 @@ from typing import List, Optional, Tuple, Dict
 
 class Planet:
    
-    def start_point(self):
-
-
     def relative_orientation(self): #defines compass direction after turn
         if orientation == 0:
             if linefollowing.turn_to_right_intersection(self):
