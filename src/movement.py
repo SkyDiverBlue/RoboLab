@@ -22,13 +22,25 @@ class Movement:
         self.left_motor.run_timed(time_sp=t, speed_sp= -s)
 
     def ttright_run_timed(self, t, s1, s2): #for PID controller and odometry
+        self.right_motor.position = 0
+        self.left_motor.position = 0
         self.right_motor.run_timed(time_sp= t, speed_sp = s1) 
-        self.left_motor.run_timed(time_sp=t, speed_sp= s2)  
+        self.left_motor.run_timed(time_sp=t, speed_sp= s2)
+        
+        self.odometry.right_rmp = self.right_motor.position #right turn right motor position
+        self.odometry.right_lmp = self.left_motor.position  #right turn left motor position
+        print('{},{}'.format(self.right_motor.position , self.left_motor.position))     
       
 
-    def ttleft_run_timed(self, t, s1, s2): #for PID controller and odometry       
+    def ttleft_run_timed(self, t, s1, s2): #for PID controller and odometry
+        self.right_motor.position = 0
+        self.left_motor.position = 0
         self.left_motor.run_timed(time_sp= t, speed_sp = s1) 
         self.right_motor.run_timed(time_sp=t, speed_sp= s2)
+
+        self.odometry.left_rmp = self.right_motor.position  #right turn right motor position
+        self.odometry.left_lmp = self.left_motor.position #right turn left motor position
+        print('{},{}'.format(self.right_motor.position , self.left_motor.position))
           
     def stop_run_timed(self):
         self.left_motor.stop()

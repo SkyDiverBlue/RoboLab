@@ -18,10 +18,10 @@ def run():
                          ts_list = (ev3.TouchSensor('in1'), ev3.TouchSensor('in4')), movement=movement_functions, odometry = odometry)
     line_follower.colour_calibration()
     while True:
-        #odometry.odometry_calculations()
+        odometry.odometry_calculations()
         line_follower.line_following()
         line_follower.path_recognising()
-        #line_follower.touch_sensor()
+        line_follower.touch_sensor()
 
     
 
