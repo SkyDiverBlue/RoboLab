@@ -1,9 +1,11 @@
 import time
 
 class Movement: 
-    def __init__(self, motor_list):
+    def __init__(self, motor_list, odometry):
         self.left_motor, self.right_motor = motor_list
+        self.odometry = odometry
 
+        
     #run timed
     
     def forward_run_timed(self, t, s):
@@ -19,15 +21,27 @@ class Movement:
         self.right_motor.run_timed(time_sp= t, speed_sp = s) 
         self.left_motor.run_timed(time_sp=t, speed_sp= -s)
 
-    def ttright_run_timed(self, t, s1, s2): #for PID controller
+    def ttright_run_timed(self, t, s1, s2): #for PID controller and odometry
+        self.right_motor.position = 0
+        self.left_motor.position = 0
         self.right_motor.run_timed(time_sp= t, speed_sp = s1) 
         self.left_motor.run_timed(time_sp=t, speed_sp= s2)
+        
+        self.odometry.right_rmp = self.right_motor.position #right turn right motor position
+        self.odometry.right_lmp = self.left_motor.position  #right turn left motor position
+        print('{},{}'.format(self.right_motor.position , self.left_motor.position))     
       
 
-    def ttleft_run_timed(self, t, s1, s2): #for PID controller
+    def ttleft_run_timed(self, t, s1, s2): #for PID controller and odometry
+        self.right_motor.position = 0
+        self.left_motor.position = 0
         self.left_motor.run_timed(time_sp= t, speed_sp = s1) 
         self.right_motor.run_timed(time_sp=t, speed_sp= s2)
-    
+
+        self.odometry.left_rmp = self.right_motor.position  #right turn right motor position
+        self.odometry.left_lmp = self.left_motor.position #right turn left motor position
+        print('{},{}'.format(self.right_motor.position , self.left_motor.position))
+          
     def stop_run_timed(self):
         self.left_motor.stop()
         self.right_motor.stop()

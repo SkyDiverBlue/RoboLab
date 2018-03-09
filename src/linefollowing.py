@@ -8,10 +8,12 @@ import time
 ev3.Sound.speak('line following has been initialised')
 
 class LineFollowing:
-    def __init__(self, colour_sensor, ts_list, movement):
+    def __init__(self, colour_sensor, ts_list, movement, odometry):
                 
         self.colour_sensor = colour_sensor
         self.colour_sensor.mode = 'RGB-RAW' #Colour sensor is in Raw mode
+
+        self.odometry = odometry
 
         self.left_touch_sensor, self.right_touch_sensor = ts_list
 
@@ -49,7 +51,7 @@ class LineFollowing:
         self.movement.tright_run_timed(t = 1000, s = 80)
                
         #robot stops when it detects offset as luminance value
-        if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.offset:
+        if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue <= self.offset+6:
 
             self.movement.stop_run_timed()
         
@@ -77,6 +79,7 @@ class LineFollowing:
         
         while True:
             self.touch_sensor()
+            self.odometry.odometry_calculations()
 
             actual_luminance = 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue
             error = actual_luminance - self.offset
@@ -134,7 +137,7 @@ class LineFollowing:
     def path_recognising(self):
         print("Entered path-recognising")
         if (self.colour_sensor.bin_data('hhh')[0] < 60 and self.colour_sensor.bin_data('hhh')[2] > 109) or (self.colour_sensor.bin_data('hhh')[0] > 120 and self.colour_sensor.bin_data('hhh')[2] < 50): 
-                     
+            print(self.odometry.displacement)        
             
             self.movement.forward_relpos(p = 130, s = 50) #centered on point
 
@@ -187,7 +190,6 @@ class LineFollowing:
                     print('offset')
                     self.movement.stop_run_timed()
                     break
-            print("Sufficient color", self.colour_sensor.raw)
 
             print(self.crossection_array)
         
