@@ -124,11 +124,12 @@ class LineFollowing:
 
             self.movement.tturn_left_relpos(p = 600, s = 100)
 
-            while 'running' in self.movement.tturn_left_relpos(p = 1800, s = 80):
+            while 'running' in self.movement.tturn_left_relpos(p = 2000, s = 80):
                 ('running left motor state')
-                if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.offset:
+                if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.offset+6:
 
                     self.movement.stop_run_timed()
+                    break
             return True
         else:
             return False
