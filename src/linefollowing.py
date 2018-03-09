@@ -181,24 +181,12 @@ class LineFollowing:
 
             time.sleep(1)
 
-            if self.crossection_array[2] == 1 :
-                print('right')
-                self.movement.tturn_left_relpos(p = 380, s = 100)
-                self.movement.wait_left()
-                self.movement.tturn_left_relpos(p = 2000, s = 100)
-                while 'running' in self.movement.right_motor.state:
-                    if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue <= self.offset + 6:
-                        print('offset')
-                        self.movement.stop_run_timed()
-                        break
-            elif self.crossection_array[2]==0 : 
-                print('noright')
-                self.movement.tturn_left_relpos(p = 3000, s = 100)
-                while 'running' in self.movement.right_motor.state:
-                    if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue <= self.offset + 6:
-                        print('offset')
-                        self.movement.stop_run_timed()
-                        break
+            self.movement.tturn_left_relpos(p = 3000, s = 100)
+            while 'running' in self.movement.right_motor.state:
+                if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue <= self.offset + 6:
+                    print('offset')
+                    self.movement.stop_run_timed()
+                    break
             print("Sufficient color", self.colour_sensor.raw)
 
             print(self.crossection_array)
