@@ -79,9 +79,10 @@ class LineFollowing:
         
         while True:
             self.touch_sensor()
-            self.odometry.odometry_calculations()
+            self.odometry.odometry_calculations(self.movement.left_motor, self.movement.right_motor)
 
-            actual_luminance = 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue
+            colour = self.colour_sensor.bin_data('hhh')
+            actual_luminance = 0.2126*colour[0]+0.7152*colour[1]+0.0722*colour[2]
             error = actual_luminance - self.offset
             integral = integral + error
             derivative = error - last_error
@@ -98,7 +99,7 @@ class LineFollowing:
                 
             last_error = error
             
-            if self.colour_sensor.bin_data('hhh')[0] < 100 and self.colour_sensor.bin_data('hhh')[2] > 105 or self.colour_sensor.bin_data('hhh')[0] > 140 and self.colour_sensor.bin_data('hhh')[1] < 100 and self.colour_sensor.bin_data('hhh')[2] < 50:
+            if colour[0] < 100 and colour[2] > 105 or colour[0] > 140 and colour[1] < 100 and colour[2] < 50:
             
                 break
      
@@ -125,11 +126,9 @@ class LineFollowing:
 
             while 'running' in self.movement.tturn_left_relpos(p = 1800, s = 80):
                 ('running left motor state')
-                if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.offset+6:
+                if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.offset:
 
                     self.movement.stop_run_timed()
-                    break
-
             return True
         else:
             return False
@@ -139,7 +138,7 @@ class LineFollowing:
     def path_recognising(self):
         print("Entered path-recognising")
         if (self.colour_sensor.bin_data('hhh')[0] < 60 and self.colour_sensor.bin_data('hhh')[2] > 109) or (self.colour_sensor.bin_data('hhh')[0] > 120 and self.colour_sensor.bin_data('hhh')[2] < 50): 
-            print(self.odometry.displacement)        
+            print(self.odometry.position_x, self.odometry.position_y, self.odometry.heading)        
             
             self.movement.forward_relpos(p = 130, s = 50) #centered on point
 
