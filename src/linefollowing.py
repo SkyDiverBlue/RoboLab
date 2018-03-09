@@ -133,14 +133,14 @@ class LineFollowing:
                
     def path_recognising(self):
         print("Entered path-recognising")
-        if (self.colour_sensor.bin_data('hhh')[0] < 100 and self.colour_sensor.bin_data('hhh')[2] > 105) or (self.colour_sensor.bin_data('hhh')[0] > 120 and self.colour_sensor.bin_data('hhh')[2] < 50): 
+        if (self.colour_sensor.bin_data('hhh')[0] < 60 and self.colour_sensor.bin_data('hhh')[2] > 109) or (self.colour_sensor.bin_data('hhh')[0] > 120 and self.colour_sensor.bin_data('hhh')[2] < 50): 
                      
             
-            self.movement.forward_relpos(p = 125, s = 50) #centered on point
+            self.movement.forward_relpos(p = 130, s = 50) #centered on point
 
             time.sleep(5)
             
-            self.movement.tturn_left_relpos(p = 390, s = 100)
+            self.movement.tturn_left_relpos(p = 380, s = 100)
             
             while "running" in self.movement.right_motor.state:
                     if self.check_black() == True:
@@ -181,19 +181,28 @@ class LineFollowing:
 
             time.sleep(1)
 
-            self.movement.tturn_left_relpos(p = 1500, s = 100)
-
-            while 'running' in self.movement.right_motor.state:
-                if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue <= self.offset + 7:
-                    print('offset')
-                    self.movement.stop_run_timed()
-                    break
+            if self.crossection_array[2] == 1 :
+                print('right')
+                self.movement.tturn_left_relpos(p = 380, s = 100)
+                self.movement.wait_left()
+                self.movement.tturn_left_relpos(p = 2000, s = 100)
+                while 'running' in self.movement.right_motor.state:
+                    if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue <= self.offset + 6:
+                        print('offset')
+                        self.movement.stop_run_timed()
+                        break
+            elif self.crossection_array[2]==0 : 
+                print('noright')
+                self.movement.tturn_left_relpos(p = 3000, s = 100)
+                while 'running' in self.movement.right_motor.state:
+                    if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue <= self.offset + 6:
+                        print('offset')
+                        self.movement.stop_run_timed()
+                        break
             print("Sufficient color", self.colour_sensor.raw)
-        else:
-            print("Insufficient color", self.colour_sensor.raw)
-        print(self.crossection_array)
+
+            print(self.crossection_array)
         
-    
     def turn_to_right_intersestion(self):
         executed_tr = False
         self.movement.tturn_right_relpos(p = 150, s = 100)
