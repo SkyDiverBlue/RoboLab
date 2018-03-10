@@ -114,20 +114,20 @@ class LineFollowing:
 #Integration Touch Sensor, untested
         if self.left_touch_sensor.value() ==1 or self.right_touch_sensor.value() == 1: 
             ev3.Sound.speak('path blocked')
-
+            print('a')
             self.movement.stop_run_timed()
-
-            time.sleep(1)
-            self.movement.backward_relpos(p = 100 , s=50)
-            
+            print('b')
+            print('c')
+            self.movement.backward_relpos(p = 50 , s = 50)
             self.movement.wait_left()
-
+            print('d')
+            self.movement.stop_run_timed()
+            print('f')
             self.movement.tturn_left_relpos(p = 600, s = 100)
-
-            while 'running' in self.movement.tturn_left_relpos(p = 2000, s = 80):
-                ('running left motor state')
-                if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.offset+6:
-
+            print('g')
+            while 'running' in self.movement.left_motor.state:
+                if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue <= self.offset + 7:
+                    print('offset')
                     self.movement.stop_run_timed()
                     break
             return True
@@ -172,7 +172,7 @@ class LineFollowing:
 
             time.sleep(1)
             
-            self.movement.tturn_right_relpos(p = 200, s = 100)
+            self.movement.tturn_right_relpos(p = 100, s = 100)
 
             while 'running' in self.movement.right_motor.state:
           
