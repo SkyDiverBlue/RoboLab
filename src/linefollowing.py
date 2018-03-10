@@ -68,7 +68,7 @@ class LineFollowing:
         integral = 0
         
 
-        Kp = 0.07 #Constant for the proportional controller (increase -> sharper turns, decrease -> smoother turns)
+        Kp = 0.05 #Constant for the proportional controller (increase -> sharper turns, decrease -> smoother turns)
         Ki = 0.05 #Contant with intergral (summ of running errors)
         Kd = 0.8 #Constant with derivative (rate of change of the proportional value)
                 
@@ -144,12 +144,16 @@ class LineFollowing:
             self.movement.forward_relpos(p = 130, s = 50) #centered on point
 
             time.sleep(5)
+
+            self.movement.tturn_left_relpos(p = 100, s = 100)
+
+            time.sleep(1)
             
-            self.movement.tturn_left_relpos(p = 380, s = 100)
+            self.movement.tturn_left_relpos(p = 200, s = 100)
             
             while "running" in self.movement.right_motor.state:
                     if self.check_black() == True:
-                        self.crossection_array[0] = 1 #left crossection
+                        self.crossection_array[0] = 1 #left crossroad
                         break        
 
             self.movement.wait_left()
@@ -158,7 +162,7 @@ class LineFollowing:
 
             self.movement.wait_left()
 
-            self.movement.tturn_right_relpos(p = 390, s = 100)
+            self.movement.tturn_right_relpos(p = 200, s = 100)
 
             while 'running' in self.movement.right_motor.state:
                 
