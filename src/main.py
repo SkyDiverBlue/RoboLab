@@ -24,9 +24,6 @@ def run():
         line_follower.touch_sensor()
 
     
-
-
-
 if __name__ == '__main__':
     run()
     
