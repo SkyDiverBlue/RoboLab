@@ -37,8 +37,8 @@ class Odometry:
         
         rotation = ((delta_left - delta_right) * self.encoder_scale_factor) / self.wheel_separation
         
-        self.position_y = self.position_x + displacement * cos(self.heading + rotation/2)
-        self.position_x = self.position_y + displacement * sin(self.heading + rotation/2)
+        self.position_y = self.position_y + displacement * cos(self.heading + rotation/2)
+        self.position_x = self.position_x + displacement * sin(self.heading + rotation/2)
         self.heading = self.heading + rotation
         self.last_left = left
         self.last_right = right
