@@ -138,7 +138,7 @@ class LineFollowing:
     def path_recognising(self):
         print("Entered path-recognising")
         if (self.colour_sensor.bin_data('hhh')[0] < 60 and self.colour_sensor.bin_data('hhh')[2] > 109) or (self.colour_sensor.bin_data('hhh')[0] > 120 and self.colour_sensor.bin_data('hhh')[2] < 50): 
-            print(self.odometry.position_x, self.odometry.position_y, self.odometry.heading)        
+            print(self.odometry.position_x, self.odometry.position_y, self.odometry.heading_degrees)  #printing position from odometry      
             
             self.movement.forward_relpos(p = 130, s = 50) #centered on point
 
