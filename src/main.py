@@ -21,7 +21,7 @@ def run():
         #odometry.odometry_calculations()
         line_follower.line_following()
         line_follower.path_recognising()
-        #line_follower.touch_sensor()
+        line_follower.touch_sensor()
 
     
 if __name__ == '__main__':
