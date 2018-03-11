@@ -12,7 +12,7 @@ class Odometry:
         self.encoder_scale_factor = 5.5*pi / 360 #0.04363323129985823942309226921222
         self.wheel_separation = 11.5
         
-        self.displacement = 0
+        displacement = 0
         
         self.last_left = None
         self.last_right = None
@@ -22,6 +22,7 @@ class Odometry:
         self.position_y = 0
 
         self.compass_directions = None
+        self.target = (self.position_x, self.position_y, self.compass_directions)
 
     def reset(self):
         self.last_left = None
@@ -39,16 +40,17 @@ class Odometry:
         delta_left = left - self.last_left
         delta_right = right - self.last_right
         
-        self.displacement = (delta_left + delta_right) * self.encoder_scale_factor / 2
+        displacement = (delta_left + delta_right) * self.encoder_scale_factor / 2
         
         rotation = ((delta_left - delta_right) * self.encoder_scale_factor) / self.wheel_separation
         
-        self.position_y = self.position_y + self.displacement * cos(self.heading + rotation/2)
-        self.position_x = self.position_x + self.displacement * sin(self.heading + rotation/2)
+        self.position_y = self.position_y + displacement * cos(self.heading + rotation/2)
+        self.position_x = self.position_x + displacement * sin(self.heading + rotation/2)
         self.heading = self.heading + rotation
         self.last_left = left
         self.last_right = right
         self.heading_degrees = self.heading * (180 / pi)
+
 
     @property
     def coordinates_y(self):
