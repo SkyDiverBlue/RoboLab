@@ -80,7 +80,7 @@ class LineFollowing:
         while True:
             self.touch_sensor()
             self.odometry.odometry_calculations(self.movement.left_motor, self.movement.right_motor)
-            print(self.odometry.heading_degrees, self.odometry.position_x, self.odometry.position_y)
+            #print(self.odometry.heading_degrees, self.odometry.position_x, self.odometry.position_y)
             colour = self.colour_sensor.bin_data('hhh')
             actual_luminance = 0.2126*colour[0]+0.7152*colour[1]+0.0722*colour[2]
             error = actual_luminance - self.offset
