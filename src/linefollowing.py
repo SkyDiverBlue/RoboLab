@@ -80,7 +80,7 @@ class LineFollowing:
         while True:
             self.touch_sensor()
             self.odometry.odometry_calculations(self.movement.left_motor, self.movement.right_motor)
-
+            print(self.odometry.heading_degrees, self.odometry.position_x, self.odometry.position_y)
             colour = self.colour_sensor.bin_data('hhh')
             actual_luminance = 0.2126*colour[0]+0.7152*colour[1]+0.0722*colour[2]
             error = actual_luminance - self.offset
@@ -139,8 +139,14 @@ class LineFollowing:
     def path_recognising(self):
         print("Entered path-recognising")
         if (self.colour_sensor.bin_data('hhh')[0] < 60 and self.colour_sensor.bin_data('hhh')[2] > 109) or (self.colour_sensor.bin_data('hhh')[0] > 120 and self.colour_sensor.bin_data('hhh')[2] < 50): 
+            
             print(self.odometry.position_x, self.odometry.position_y, self.odometry.heading_degrees)  #printing position from odometry      
             
+            self.odometry.coordinates_x = self.odometry.coordinates_x
+            self.odometry.coordinates_y = self.odometry.coordinates_y
+
+            print('{},{}'.format(self.odometry.coordinates_x, self.odometry.coordinates_y)) #printing coordinates in grid
+
             self.movement.forward_relpos(p = 130, s = 50) #centered on point
 
             time.sleep(5)
@@ -152,6 +158,7 @@ class LineFollowing:
             self.movement.tturn_left_relpos(p = 200, s = 100)
             
             while "running" in self.movement.right_motor.state:
+                    self.odometry.odometry_calculations(self.movement.left_motor, self.movement.right_motor)
                     if self.check_black() == True:
                         self.crossection_array[0] = 1 #left crossroad
                         break        
@@ -165,13 +172,13 @@ class LineFollowing:
             self.movement.tturn_right_relpos(p = 200, s = 100)
 
             while 'running' in self.movement.right_motor.state:
-                
+                self.odometry.odometry_calculations(self.movement.left_motor, self.movement.right_motor)
                 if self.check_black() == True:
                     self.crossection_array[1] = 1 #middle crossection
                     break 
 
             while 'running' in self.movement.left_motor.state:
-              
+                self.odometry.odometry_calculations(self.movement.left_motor, self.movement.right_motor)
                 time.sleep(0.05)
 
             time.sleep(1)
@@ -179,19 +186,20 @@ class LineFollowing:
             self.movement.tturn_right_relpos(p = 100, s = 100)
 
             while 'running' in self.movement.right_motor.state:
-          
+                self.odometry.odometry_calculations(self.movement.left_motor, self.movement.right_motor)
                 if self.check_black() == True:
                     self.crossection_array[2] = 1 #left crossection
                     break 
            
             while 'running' in self.movement.left_motor.state:
-               
+                self.odometry.odometry_calculations(self.movement.left_motor, self.movement.right_motor)
                 time.sleep(0.05)
 
             time.sleep(1)
 
             self.movement.tturn_left_relpos(p = 3000, s = 100)
             while 'running' in self.movement.right_motor.state:
+                self.odometry.odometry_calculations(self.movement.left_motor, self.movement.right_motor)
                 if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue <= self.offset + 6:
                     print('offset')
                     self.movement.stop_run_timed()
