@@ -23,14 +23,13 @@ class Communication:
             args = str(msg.payload.decode("utf-8")).split(" ")
             planet = args[2]
             self.client.subscribe((planet),qos=1)
-            #get_data und key oder getter setter
-            #Übermittlung der Startposition an Planet
+            planet.set_start_point(eval(args[3]))
 
 
         elif 'planet' in msg.topic:
             args = str(msg.payload.decode("utf-8")).split(" ")
             if 'path' in args[1]:
-                #empfangen von neuen Pfaden anderer Roboter, und Korrektur der Koordinaten an Planet
+
             
             elif 'target' in args[1]:
                 #empfangen von Zielkoordinaten an Planet
