@@ -29,8 +29,13 @@ class Communication:
         elif 'planet' in msg.topic:
             args = str(msg.payload.decode("utf-8")).split(" ")
             if 'path' in args[1]:
+                start = args[2].split(",")
+                target = args[3].split(",")
+                weight = args[5]
+                planet.add_path(start: Tuple[int, int, Direction], target: Tuple[int, int, Direction], weight: int)
+                
+               
 
-            
             elif 'target' in args[1]:
                 #empfangen von Zielkoordinaten an Planet
 
