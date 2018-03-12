@@ -49,27 +49,12 @@ class Planet:
             self.paths[(start[:1])]= {}
         if target[:1] not in  self.paths :
             self.paths[(target[:1])]
+        self.paths[start[:2] ]= target[[:2]], weight
+        self.paths[target[:2]] = self.self_paths[start[:2]], weight
 
-  
-      
-        """ Adds a path defined by its start and end coordinates to the map and assigns the weight to it """
-        # dic anlegen 
         pass
 
-    """ 
-        example: 
-        get_paths() returns: { 
-                                (0, 3): {
-                                            Direction.NORTH: ((0, 3), Direction.WEST, 1), 
-                                            Direction.EAST: ((1, 3), Direction.WEST, 2) 
-                                        },
-                                (1, 3): {
-                                            Direction.WEST: ((0, 3), Direction.EAST, 2), 
-                                            ... 
-                                        }, 
-                                ...
-                              }
-    """
+   
 
     def get_paths(self) -> Dict[Tuple[int, int], Dict[Direction, Tuple[Tuple[int, int], Direction, Weight]]]:
         return self.paths
@@ -79,7 +64,9 @@ class Planet:
     # example: shortest_path((0,0), (1,2)) returns: None
     def shortest_path(self, start: Tuple[int, int], target: Tuple[int, int]) -> Optional[List[Tuple[int, int, Direction]]]:
         """ Returns a shortest path between two nodes """
-pass
+        pass
+
+    def 
 
 
 

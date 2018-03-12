@@ -32,8 +32,7 @@ class Communication:
                 start = args[2].split(",")
                 target = args[3].split(",")
                 weight = args[5]
-                planet.add_path(start: Tuple[int, int, Direction], target: Tuple[int, int, Direction], weight: int)
-                
+                planet.add_path()
                
 
             elif 'target' in args[1]:
@@ -44,6 +43,7 @@ class Communication:
 
     def send_message(self, channel, message):
         self.client.publish(#topic channel, payload = message, qos=1)
+
         
         print('test')
        
