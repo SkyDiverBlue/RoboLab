@@ -25,6 +25,7 @@ class LineFollowing:
         self.offset = 0
 
         self.crossection_array = [0,0,0]
+        self.compass_array = ['','','']
     
 
     def colour_calibration(self): #in this function both luminance (black/white) will be calibrated
@@ -140,8 +141,10 @@ class LineFollowing:
         print("Entered path-recognising")
         if (self.colour_sensor.bin_data('hhh')[0] < 60 and self.colour_sensor.bin_data('hhh')[2] > 109) or (self.colour_sensor.bin_data('hhh')[0] > 120 and self.colour_sensor.bin_data('hhh')[2] < 50): 
             
-            print(self.odometry.position_x, self.odometry.position_y, self.odometry.heading_degrees)  #printing position from odometry      
+            print('{},{}'.format(self.odometry.heading_degrees,self.odometry.compass_directions))  #printing position from odometry      
             
+            self.odometry.compass()
+
             self.odometry.coordinates_x = self.odometry.coordinates_x
             self.odometry.coordinates_y = self.odometry.coordinates_y
 
@@ -149,7 +152,7 @@ class LineFollowing:
 
             self.movement.forward_relpos(p = 130, s = 50) #centered on point
 
-            time.sleep(5)
+            time.sleep(5) 
 
             self.movement.tturn_left_relpos(p = 100, s = 100)
 
@@ -204,8 +207,40 @@ class LineFollowing:
                     print('offset')
                     self.movement.stop_run_timed()
                     break
-
+            self.intersection_compass()
             print(self.crossection_array)
+            print(self.compass_array)
+
+    def intersection_compass(self):
+        if self.odometry.compass_directions == 'N': #if initial direction = North
+            if self.crossection_array[0] == 1:
+                self.compass_array[0] = 'W'
+            if self.crossection_array[1] == 1:
+                self.compass_array[1] = 'N'
+            if self.crossection_array[2] == 1:
+                self.compass_array[2] = 'E'
+        if self.odometry.compass_directions == 'W': #if initial direction = West
+            if self.crossection_array[0] == 1:
+                self.compass_array[0] = 'S'
+            if self.crossection_array[1] == 1:
+                self.compass_array[1] = 'W'
+            if self.crossection_array[2] == 1:
+                self.compass_array[2] = 'N'
+        if self.odometry.compass_directions == 'E': #if initial direction = East
+            if self.crossection_array[0] == 1:
+                self.compass_array[0] = 'N'
+            if self.crossection_array[1] == 1:
+                self.compass_array[1] = 'E'
+            if self.crossection_array[2] == 1:
+                self.compass_array[2] = 'S'
+        if self.odometry.compass_directions == 'S': #if initial direction = East
+            if self.crossection_array[0] == 1:
+                self.compass_array[0] = 'E'
+            if self.crossection_array[1] == 1:
+                self.compass_array[1] = 'S'
+            if self.crossection_array[2] == 1:
+                self.compass_array[2] = 'W'            
+
         
     def turn_to_right_intersestion(self):
         executed_tr = False

@@ -16,13 +16,13 @@ class Odometry:
         
         self.last_left = None
         self.last_right = None
-
-        #those will be set in the communication
+        
         self.position_x = 0 
         self.position_y = 0
 
-        self.compass_directions = None
-        self.target = (self.position_x, self.position_y, self.compass_directions)
+        self.compass_directions= 'N'
+        
+
 
     def reset(self):
         self.last_left = None
@@ -50,7 +50,7 @@ class Odometry:
         self.last_left = left
         self.last_right = right
         self.heading_degrees = self.heading * (180 / pi)
-
+        self.compass()
 
     @property
     def coordinates_y(self):
@@ -70,20 +70,19 @@ class Odometry:
         self.position_x = value * 50
 
     
-    def compass_directions(self):
+    def compass(self):
+        modulo_calculation = self.heading_degrees % 360
         
-        if self.heading_degrees > 60 and self.heading_degrees < 120:
+        if modulo_calculation > 45 and modulo_calculation <= 135:
             self.compass_directions = 'E'
 
-        if self.heading_degrees > -60 and self.heading_degrees < -120:
-            self.compass_directions = 'W'
-
-        if self.heading_degrees > -30 and self.heading_degrees < 30:
+        elif modulo_calculation >= 315 or modulo_calculation <= 45:
             self.compass_directions = 'N'
         
-        if self.heading_degrees < -150 and self.heading_degrees < 150:
+        elif modulo_calculation > 135 and modulo_calculation <= 225:
             self.compass_directions = 'S'
-
+        else: 
+            self.compass_directions = 'W'
 
 
 

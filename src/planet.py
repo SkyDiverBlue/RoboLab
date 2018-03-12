@@ -2,6 +2,7 @@
 
 from enum import IntEnum, unique
 from typing import List, Optional, Tuple, Dict
+from odometry import Odometry
 
 # IMPORTANT NOTE: DO NOT IMPORT THE ev3dev.ev3 MODULE IN THIS FILE
 
@@ -30,9 +31,13 @@ class Planet:
 
     def __init__(self):
         """ Initializes the data structure """
+
+        self.odometry = odometry
+        
         self.target = None
-        self.start_point = (0,0)
-        self.map = dict()
+        self.target = (get)
+        self.map = dict() #-> start point(x,y,D), target point(x,y,D) and weight
+
 
     def get_start_point(self):
         return self.start_point
@@ -42,7 +47,7 @@ class Planet:
 
 
 
-    # example: add_path((0, 3, Direction.NORTH), (0, 3, Direction.WEST), 1)
+    # example: add_path((0, 3, Direction.NORTH), (0, 3, Direction.WEST), 1) -> added to planet: start point(x,y,D), target point(x,y,D) and weight of path from communication
     def add_path(self, start: Tuple[int, int, Direction], target: Tuple[int, int, Direction], weight: int):
         self.map[start[:1]] = {start[2]: (target[:1], Direction, weight)}
         if start[:1] not in self.paths :
@@ -56,28 +61,15 @@ class Planet:
         # dic anlegen 
         pass
 
-    """ 
-        example: 
-        get_paths() returns: { 
-                                (0, 3): {
-                                            Direction.NORTH: ((0, 3), Direction.WEST, 1), 
-                                            Direction.EAST: ((1, 3), Direction.WEST, 2) 
-                                        },
-                                (1, 3): {
-                                            Direction.WEST: ((0, 3), Direction.EAST, 2), 
-                                            ... 
-                                        }, 
-                                ...
-                              }
-    """
 
-    def get_paths(self) -> Dict[Tuple[int, int], Dict[Direction, Tuple[Tuple[int, int], Direction, Weight]]]:
+    def get_paths(self) -> Dict[Tuple[int, int], Dict[Direction, Tuple[Tuple[int, int], Direction, Weight]]]: #return values
         return self.paths
         pass
 
     # example: shortest_path((0,0), (2,2)) returns: [(0, 0, Direction.East), (1, 0, Direction.North)]
     # example: shortest_path((0,0), (1,2)) returns: None
-    def shortest_path(self, start: Tuple[int, int], target: Tuple[int, int]) -> Optional[List[Tuple[int, int, Direction]]]:
+    
+    def shortest_path(self, start: Tuple[int, int], target: Tuple[int, int]):
         """ Returns a shortest path between two nodes """
 pass
 
