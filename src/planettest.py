@@ -29,8 +29,28 @@ class TestPlanet(PlanetTestCase):
     """
 
     def test_integrity(self):
-        self.assertFail('implement me!')
-
+        self.planet.add_path((0, 0, Direction.EAST), (1, 0, Direction.WEST), 1)
+        self.planet.add_path((0, 1, Direction.NORTH), (0, 2, Direction.SOUTH), 2)
+        self.planet.add_path((0, 0, Direction.NORTH), (0, 1, Direction.SOUTH), 3)
+        
+        a = {
+              (0,0):{
+                 Direction.EAST: ((1,0), Direction.WEST, 1),
+                 Direction.NORTH: ((0,1), Direction.SOUTH, 3)
+                 },
+             (0,1):{
+                 Direction.SOUTH: ((0,0), Direction.NORTH, 3),
+                 Direction.NORTH: ((0,2), Direction.SOUTH, 2)
+                 },
+             (1,0):{
+                 Direction.WEST: ((0,0), Direction.EAST, 1)
+                 },
+             (0,2):{
+                 Direction.SOUTH: ((0,1), Direction.NORTH, 2)
+                 }
+            }
+        self.assertEqual(self.planet.get_paths(), a)
+    
     def test_empty_planet(self):
         self.assertIsNone(self.planet.shortest_path((0,0),(1,2)))
 
@@ -124,7 +144,7 @@ class SecondPlanet(PlanetTestCase):
         self.planet.add_path((4, 4, Direction.NORTH), (3, 6, Direction.EAST))
         self.planet.add_path((4, 4, Direction.EAST), (5, 4, Direction.WEST))
         self.planet.add_path((4, 2, Direction.EAST), (5, 4, Direction.SOUTH))
-        self.assertEqual(self.planet.shortest_path((2, 0), (5, 4), [(2, 0, Direction.EAST), (3, 0, Direction.NORTH)])
+        self.assertEqual(self.planet.shortest_path((2, 0), (5, 4)), [(2, 0, Direction.EAST), (3, 0, Direction.NORTH)])
 
     def test_4_shortest_path_with_loop(self):
         self.planet.add_path((0, 0, Direction.EAST), (2, 0, Direction.WEST))

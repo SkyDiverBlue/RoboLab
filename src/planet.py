@@ -34,7 +34,6 @@ class Planet:
         self.target = None
         self.start_point = (0,0)
 
-        self.start_dict = {}
         self.node = {}
 
     def get_start_point(self):
@@ -48,21 +47,23 @@ class Planet:
         start_x, start_y, start_dir = start
         target_x, target_y, target_dir = target
         target_coordinates = (target_x, target_y)
-        start_coordinates = (start[0],start[1])
-                
-        path_weight = weight
+        start_coordinates = (start_x,start_y)
         
-        if (start[0], start[1]) not in self.node:
-            self.node[(start[0], start[1])] = {}
+        if start_coordinates not in self.node:
+            self.node[start_coordinates] = {}
 
-        if (target[0], target[1]) not in self.node:
-            self.node[(target[0], target[1])] = {}
+        if target_coordinates not in self.node:
+            self.node[target_coordinates] = {}
         
-        self.start_dict=self.node[start_coordinates]
-        self.start_dict[start_dir] = (target_coordinates, target_dir, path_weight)
+        start_dict = self.node[start_coordinates]
+        start_dict[start_dir] = (target_coordinates, target_dir, weight)
+
+        start_dict = self.node[target_coordinates]
+        start_dict[target_dir] = (start_coordinates, start_dir, weight)
+
 
     def get_paths(self) -> Dict[Tuple[int, int], Dict[Direction, Tuple[Tuple[int, int], Direction, Weight]]]:
-        return self.start_dict
+        return self.node
     
     def shortest_path(self, start: Tuple[int, int], target: Tuple[int, int]) -> Optional[List[Tuple[int, int, Direction]]]:
         """ Returns a shortest path between two nodes """
@@ -70,9 +71,8 @@ class Planet:
         if self.node in self.start_dict:
             return []
 
-    def Dijkstra(self, graph):
-        self.neighbouring_points = {self.node, self.start_dict[1], self.start_dict[2]} #start point, possible end point, weight of path don't think I need it
-        
+    def dijkstra(self, graph):
+
         distance = {}
         updated_distance
 
@@ -99,14 +99,7 @@ class Planet:
                         distances[self.start_dict[1]] = updated_distance
                         predecessor[self.start_dict[1]] = self.node
             visited.append(self.start_dict[1])
-
-            for k in graph:
-                if k not in visited:
-                    unvisited[k] = distances.get(k)
-            if len(unvisited) == 0:
-                return None
-            x = min(unvisited, key=unvisited.get)
-            return self.path(graph, x, dest, visited, distance, predecessor)
+            
 
 
         
