@@ -51,6 +51,7 @@ class Odometry:
         self.last_right = right
         self.heading_degrees = self.heading * (180 / pi)
         self.compass()
+        self.invert_compass()
 
     @property
     def coordinates_y(self):
@@ -84,9 +85,22 @@ class Odometry:
         else: 
             self.compass_directions = 'W'
 
+def invert_compass(self):
+        modulo_calculation = self.heading_degrees % 360
+        
+        if modulo_calculation > 45 and modulo_calculation <= 135:
+            self.invertcompass_directions = 'W'
+
+        elif modulo_calculation >= 315 or modulo_calculation <= 45:
+            self.invertcompass_directions = 'S'
+        
+        elif modulo_calculation > 135 and modulo_calculation <= 225:
+            self.invertcompass_directions = 'N'
+        else: 
+            self.invertcompass_directions = 'E'
 
 
-
+# target: self_position_y, self_position_x,self.invert compass
 
         
         

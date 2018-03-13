@@ -33,6 +33,7 @@ class Planet:
         self.target = None
         self.start_point = (0,0)
         self.map = dict()
+        self.name = str()
 
     def get_start_point(self):
         return self.start_point

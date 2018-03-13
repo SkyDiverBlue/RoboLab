@@ -23,9 +23,12 @@ class LineFollowing:
         self.black_luminance_value = 0
         
         self.offset = 0
+        self.status = free
 
         self.crossection_array = [0,0,0]
         self.compass_array = ['','','']
+
+        communication_on = False
     
 
     def colour_calibration(self): #in this function both luminance (black/white) will be calibrated
@@ -114,6 +117,7 @@ class LineFollowing:
     def touch_sensor(self):
 #Integration Touch Sensor, untested
         if self.left_touch_sensor.value() ==1 or self.right_touch_sensor.value() == 1: 
+            self.status = blocked
             ev3.Sound.speak('path blocked')
             print('a')
             self.movement.stop_run_timed()
