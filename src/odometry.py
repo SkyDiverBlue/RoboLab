@@ -20,9 +20,13 @@ class Odometry:
         self.position_x = 0 
         self.position_y = 0
 
-        self.compass_directions= 'N'
+        self.coordinates_dic = {'x coordinate' : self.coordinates_x, 'y coordinate' : self.coordinates_y, 'direction' : self.compass}
         
 
+
+    @property
+    def coordinate_dic(self):
+        return {'x coordinate' : self.coordinates_x, 'y coordinate' : self.coordinates_y, 'direction' : self.compass}
 
     def reset(self):
         self.last_left = None
@@ -50,7 +54,6 @@ class Odometry:
         self.last_left = left
         self.last_right = right
         self.heading_degrees = self.heading * (180 / pi)
-        self.compass()
 
     @property
     def coordinates_y(self):
@@ -69,20 +72,21 @@ class Odometry:
     def coordinates_x(self, value):
         self.position_x = value * 50
 
-    
+    @property
     def compass(self):
         modulo_calculation = self.heading_degrees % 360
         
         if modulo_calculation > 45 and modulo_calculation <= 135:
-            self.compass_directions = 'E'
+            return 'E'
 
         elif modulo_calculation >= 315 or modulo_calculation <= 45:
-            self.compass_directions = 'N'
+            return 'N'
         
         elif modulo_calculation > 135 and modulo_calculation <= 225:
-            self.compass_directions = 'S'
+            return  'S'
         else: 
-            self.compass_directions = 'W'
+            return 'W'
+        
 
 
 

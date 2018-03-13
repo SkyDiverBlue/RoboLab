@@ -2,6 +2,7 @@
 
 from enum import IntEnum, unique
 from typing import List, Optional, Tuple, Dict
+from collections import Counter
 
 # IMPORTANT NOTE: DO NOT IMPORT THE ev3dev.ev3 MODULE IN THIS FILE
 
@@ -32,7 +33,9 @@ class Planet:
         """ Initializes the data structure """
         self.target = None
         self.start_point = (0,0)
-        self.map = dict()
+
+        self.start_dict = {}
+        self.node = {}
 
     def get_start_point(self):
         return self.start_point
@@ -40,33 +43,75 @@ class Planet:
     def set_start_point(self, value):
         self.start_point = value
 
-
-
-    # example: add_path((0, 3, Direction.NORTH), (0, 3, Direction.WEST), 1)
     def add_path(self, start: Tuple[int, int, Direction], target: Tuple[int, int, Direction], weight: int):
-        self.map[start[:1]] = {start[2]: (target[:1], Direction, weight)}
-        if start[:1] not in self.paths :
-            self.paths[(start[:1])]= {}
-        if target[:1] not in  self.paths :
-            self.paths[(target[:1])]
-        self.paths[start[:2] ]= target[[:2]], weight
-        self.paths[target[:2]] = self.self_paths[start[:2]], weight
+                
+        start_x, start_y, start_dir = start
+        target_x, target_y, target_dir = target
+        target_coordinates = (target_x, target_y)
+        start_coordinates = (start[0],start[1])
+                
+        path_weight = weight
+        
+        if (start[0], start[1]) not in self.node:
+            self.node[(start[0], start[1])] = {}
 
-        pass
-
-   
+        if (target[0], target[1]) not in self.node:
+            self.node[(target[0], target[1])] = {}
+        
+        self.start_dict=self.node[start_coordinates]
+        self.start_dict[start_dir] = (target_coordinates, target_dir, path_weight)
 
     def get_paths(self) -> Dict[Tuple[int, int], Dict[Direction, Tuple[Tuple[int, int], Direction, Weight]]]:
-        return self.paths
-        pass
-
-    # example: shortest_path((0,0), (2,2)) returns: [(0, 0, Direction.East), (1, 0, Direction.North)]
-    # example: shortest_path((0,0), (1,2)) returns: None
+        return self.start_dict
+    
     def shortest_path(self, start: Tuple[int, int], target: Tuple[int, int]) -> Optional[List[Tuple[int, int, Direction]]]:
         """ Returns a shortest path between two nodes """
-        pass
+              #NEED HELP PLS!!!     
+        if self.node in self.start_dict:
+            return []
 
-    def 
+    def Dijkstra(self, graph):
+        self.neighbouring_points = {self.node, self.start_dict[1], self.start_dict[2]} #start point, possible end point, weight of path don't think I need it
+        
+        distance = {}
+        updated_distance
+
+        predecessor = {}
+        visited = []
+        univisited = {}
+           
+        if self.node == self.start_dict[1]:
+            path = []
+            self.start_dict[1] = previous_node
+            while previous_node is not None:
+                path.append(previous_node)
+                previous_node = predecessor.get(previous_node, None)
+            return Path
+
+        else:
+            if not visited:
+                distance[self.node] = 0
+            for self.start_dict[1] in graph[self.node]: #not sure of syntax
+                if self.start_dict[1] not in visited:
+                    
+                    updated_distance = distance + self.start_dict[1]
+                    if updated_distance < distance.get(self.start_dict[1]):
+                        distances[self.start_dict[1]] = updated_distance
+                        predecessor[self.start_dict[1]] = self.node
+            visited.append(self.start_dict[1])
+
+            for k in graph:
+                if k not in visited:
+                    unvisited[k] = distances.get(k)
+            if len(unvisited) == 0:
+                return None
+            x = min(unvisited, key=unvisited.get)
+            return self.path(graph, x, dest, visited, distance, predecessor)
+
+
+        
+
+    
 
 
 

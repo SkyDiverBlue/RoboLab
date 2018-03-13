@@ -133,6 +133,7 @@ class LineFollowing:
                     break
             return True
         else:
+            [].
             return False
                    
 
@@ -141,10 +142,7 @@ class LineFollowing:
         print("Entered path-recognising")
         if (self.colour_sensor.bin_data('hhh')[0] < 60 and self.colour_sensor.bin_data('hhh')[2] > 109) or (self.colour_sensor.bin_data('hhh')[0] > 120 and self.colour_sensor.bin_data('hhh')[2] < 50): 
             
-            print('{},{}'.format(self.odometry.heading_degrees,self.odometry.compass_directions))  #printing position from odometry      
-            
-            self.odometry.compass()
-
+            print('{},{}'.format(self.odometry.heading_degrees,self.odometry.compass))  #printing position from odometry      
             self.odometry.coordinates_x = self.odometry.coordinates_x
             self.odometry.coordinates_y = self.odometry.coordinates_y
 
@@ -206,28 +204,28 @@ class LineFollowing:
             print(self.compass_array)
 
     def intersection_compass(self):
-        if self.odometry.compass_directions == 'N': #if initial direction = North
+        if self.odometry.compass == 'N': #if initial direction = North
             if self.crossection_array[0] == 1:
                 self.compass_array[0] = 'W'
             if self.crossection_array[1] == 1:
                 self.compass_array[1] = 'N'
             if self.crossection_array[2] == 1:
                 self.compass_array[2] = 'E'
-        if self.odometry.compass_directions == 'W': #if initial direction = West
+        if self.odometry.compass == 'W': #if initial direction = West
             if self.crossection_array[0] == 1:
                 self.compass_array[0] = 'S'
             if self.crossection_array[1] == 1:
                 self.compass_array[1] = 'W'
             if self.crossection_array[2] == 1:
                 self.compass_array[2] = 'N'
-        if self.odometry.compass_directions == 'E': #if initial direction = East
+        if self.odometry.compass == 'E': #if initial direction = East
             if self.crossection_array[0] == 1:
                 self.compass_array[0] = 'N'
             if self.crossection_array[1] == 1:
                 self.compass_array[1] = 'E'
             if self.crossection_array[2] == 1:
                 self.compass_array[2] = 'S'
-        if self.odometry.compass_directions == 'S': #if initial direction = East
+        if self.odometry.compass == 'S': #if initial direction = East
             if self.crossection_array[0] == 1:
                 self.compass_array[0] = 'E'
             if self.crossection_array[1] == 1:

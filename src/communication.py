@@ -42,7 +42,10 @@ class Communication:
     
 
     def send_message(self, channel, message):
-        self.client.publish(#topic channel, payload = message, qos=1)
+        self.client.publish(t = message.topic channel, b = message.payload, qos=1)
+        t = ('planet'/str(planet))
+
+        b = ('SYN path' str(#x communication starting point -> which is the end point for the communication ) str(y) str(D), str(self.odometry.coordinates_x) str(self.odometry.coordinates_y) str(self.odometry.compass_directions))
 
         
         print('test')
