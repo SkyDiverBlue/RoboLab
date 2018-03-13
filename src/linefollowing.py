@@ -82,7 +82,6 @@ class LineFollowing:
         #If luminance decreases -> wobble left
         
         while True:
-            self.touch_sensor()
             self.odometry.odometry_calculations(self.movement.left_motor, self.movement.right_motor)
             #print(self.odometry.heading_degrees, self.odometry.position_x, self.odometry.position_y)
             colour = self.colour_sensor.bin_data('hhh')
