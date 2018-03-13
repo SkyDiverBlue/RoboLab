@@ -80,7 +80,7 @@ class Planet:
         visited = []
         univisited = {}
            
-        if self.node == self.start_dict[1]:
+        if self.node[start_coordinate] == self.:
             path = []
             self.start_dict[1] = previous_node
             while previous_node is not None:
