@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import paho.mqtt.client as mqtt
 # Suggestion: Do not import ev3dev.ev3 module in this file
+from odometry import Odometry
+from planet import Planet
 
 
 class Communication:
@@ -9,6 +11,7 @@ class Communication:
         self.client = mqtt.Client(client_id="02", clean_session=False, protocol=mqtt.MQTTv31)
         self.planet = planet
         self.client.on_message = self.on_message
+        self.odometry = odometry
      
     def connect(self):
         self.client.username_pw_set(username="002", password="Gq5FnDuKW1") 
@@ -38,15 +41,14 @@ class Communication:
             elif 'target' in args[1]:
                 #empfangen von Zielkoordinaten an Planet
 
-        pass 
+            pass 
     
 
     def send_message(self, channel, message):
-        self.client.publish(t = message.topic channel, b = message.payload, qos=1)
-        t = ('planet'/str(planet))
+        self.client.publish(t = message.topic, b = message.payload, qos=1)
+        t = ('planet'/planet)
 
-        b = ('SYN path' str(#x communication starting point -> which is the end point for the communication ) str(y) str(D), str(self.odometry.coordinates_x) str(self.odometry.coordinates_y) str(self.odometry.compass_directions))
-
+        b = ('ACK path' str(self.odometry))
         
         print('test')
        
