@@ -20,13 +20,9 @@ class Odometry:
         self.position_x = 0 
         self.position_y = 0
 
-        self.coordinates_dic = {'x coordinate' : self.coordinates_x, 'y coordinate' : self.coordinates_y, 'direction' : self.compass}
+        self.compass_directions= 'N'
         
 
-
-    @property
-    def coordinate_dic(self):
-        return {'x coordinate' : self.coordinates_x, 'y coordinate' : self.coordinates_y, 'direction' : self.compass}
 
     def reset(self):
         self.last_left = None
@@ -54,6 +50,8 @@ class Odometry:
         self.last_left = left
         self.last_right = right
         self.heading_degrees = self.heading * (180 / pi)
+        self.compass()
+        self.invert_compass()
 
     @property
     def coordinates_y(self):
@@ -72,25 +70,37 @@ class Odometry:
     def coordinates_x(self, value):
         self.position_x = value * 50
 
-    @property
+    
     def compass(self):
         modulo_calculation = self.heading_degrees % 360
         
         if modulo_calculation > 45 and modulo_calculation <= 135:
-            return 'E'
+            self.compass_directions = 'E'
 
         elif modulo_calculation >= 315 or modulo_calculation <= 45:
-            return 'N'
+            self.compass_directions = 'N'
         
         elif modulo_calculation > 135 and modulo_calculation <= 225:
-            return  'S'
+            self.compass_directions = 'S'
         else: 
-            return 'W'
+            self.compass_directions = 'W'
+
+def invert_compass(self):
+        modulo_calculation = self.heading_degrees % 360
         
+        if modulo_calculation > 45 and modulo_calculation <= 135:
+            self.invertcompass_directions = 'W'
+
+        elif modulo_calculation >= 315 or modulo_calculation <= 45:
+            self.invertcompass_directions = 'S'
+        
+        elif modulo_calculation > 135 and modulo_calculation <= 225:
+            self.invertcompass_directions = 'N'
+        else: 
+            self.invertcompass_directions = 'E'
 
 
-
-
+# target: self_position_y, self_position_x,self.invert compass
 
         
         

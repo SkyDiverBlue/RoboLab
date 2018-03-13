@@ -3,6 +3,7 @@ import paho.mqtt.client as mqtt
 # Suggestion: Do not import ev3dev.ev3 module in this file
 from odometry import Odometry
 from planet import Planet
+from linefollowing import Linefollowing
 
 
 class Communication:
@@ -24,7 +25,7 @@ class Communication:
 
         if 'explorer' in msg.topic:
             args = str(msg.payload.decode("utf-8")).split(" ")
-            planet = args[2]
+            self.planet.name = args[2]
             self.client.subscribe((planet),qos=1)
             planet.set_start_point(eval(args[3]))
 
@@ -35,23 +36,30 @@ class Communication:
                 start = args[2].split(",")
                 target = args[3].split(",")
                 weight = args[5]
-                planet.add_path()
+                planet.add_path(start, target, weight)
                
 
             elif 'target' in args[1]:
                 #empfangen von Zielkoordinaten an Planet
-
-            pass 
+                pass 
     
 
     def send_message(self, channel, message):
         self.client.publish(t = message.topic, b = message.payload, qos=1)
-        t = ('planet'/planet)
-
-        b = ('ACK path' str(self.odometry))
-        
-        print('test')
-       
         pass
 
 
+    def first_communication(self) :
+        self.connect()
+        self.send_message('explorer/002', 'SYN Ready')
+        self.client.subscribe('planet/{}'.format(self.planet.name), qos=1)
+        pass
+
+    def path_communication(self) :
+        if communication_on == True:
+            if planet.start_dict=={}:
+                start.odo =(self.planet.start_point, N)
+            else :
+                start_odo = (x,y ,heading)
+                target_odo = (self.odometry.coordinates_x, self.coordinates_y, self.odometry.invertcompass_directions)
+                self.send_message('planet/{}'.format(self.planet.name), 'SYN path', '{}'.format(start_odo), '{}'.format(target_odo), '{}'.format(self.linefollowing.status))

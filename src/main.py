@@ -5,7 +5,7 @@ from planet import Direction, Planet
 from odometry import Odometry
 import linefollowing as follow #imports the line following program as follow
 from movement import Movement
-
+from time import sleep
 
 
 def run():
@@ -16,7 +16,13 @@ def run():
     movement_functions = Movement(motor_list = (ev3.LargeMotor('outB'), ev3.LargeMotor('outC')), odometry = odometry)
     line_follower = follow.LineFollowing(colour_sensor = ev3.ColorSensor('in2'),
                          ts_list = (ev3.TouchSensor('in1'), ev3.TouchSensor('in4')), movement=movement_functions, odometry = odometry)
+    communication = Communication()
     line_follower.colour_calibration()
+    line_follower.line_following()
+    communication.first_communication()
+    sleep(2)
+    line_follower.path_recognising()
+
     while True:
         #odometry.odometry_calculations()
         line_follower.line_following()
