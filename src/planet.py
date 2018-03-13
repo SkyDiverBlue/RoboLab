@@ -41,6 +41,8 @@ class Planet:
         self.start_point = value
 
 
+ 
+
 
     # example: add_path((0, 3, Direction.NORTH), (0, 3, Direction.WEST), 1)
     def add_path(self, start: Tuple[int, int, Direction], target: Tuple[int, int, Direction], weight: int):
@@ -49,7 +51,7 @@ class Planet:
             self.paths[(start[:1])]= {}
         if target[:1] not in  self.paths :
             self.paths[(target[:1])]
-        self.paths[start[:2] ]= target[[:2]], weight
+        self.paths[start[:2] ]= [target[:2]], weight
         self.paths[target[:2]] = self.self_paths[start[:2]], weight
 
         pass
@@ -63,12 +65,34 @@ class Planet:
     # example: shortest_path((0,0), (2,2)) returns: [(0, 0, Direction.East), (1, 0, Direction.North)]
     # example: shortest_path((0,0), (1,2)) returns: None
     def shortest_path(self, start: Tuple[int, int], target: Tuple[int, int]) -> Optional[List[Tuple[int, int, Direction]]]:
+
+
+
+
         """ Returns a shortest path between two nodes """
+
+
         pass
 
-    def 
 
 
+
+
+class Node:
+    def_init_(self, x_pos, y_pos)
+    self.x =pos_x
+    self.y= pos_y
+    self.heading= edge_angle
+
+class Edge:
+    def_init_(self,StopAsyncIteration,Node,start_angle,end_node,end_angle):
+        self.start_node= start_node
+        self.start_angle= start_angle
+        self.end_node =end_node
+    def adj(edge_set,node):
+            adj_list=[]
+            for edge in edge_set
+   
 
 
 
