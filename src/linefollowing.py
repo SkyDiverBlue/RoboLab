@@ -137,6 +137,8 @@ class LineFollowing:
         print("Entered path-recognising")
         if (self.colour_sensor.bin_data('hhh')[0] < 60 and self.colour_sensor.bin_data('hhh')[2] > 109) or (self.colour_sensor.bin_data('hhh')[0] > 120 and self.colour_sensor.bin_data('hhh')[2] < 50): 
             
+            self.crossection_array = [0,0,0]
+
             print('{},{}'.format(self.odometry.heading_degrees,self.odometry.compass_directions))  #printing position from odometry      
             
             self.odometry.compass()
@@ -163,11 +165,11 @@ class LineFollowing:
 
             self.movement.wait_left()
 
-            self.movement.tturn_right_relpos(p = 50, s = 100)
+            self.movement.tturn_right_relpos(p = 150, s = 100)
 
             self.movement.wait_left()
 
-            self.movement.tturn_right_relpos(p = 300, s = 100)
+            self.movement.tturn_right_relpos(p = 200, s = 100)
 
             while 'running' in self.movement.left_motor.state:
                 if self.check_black() == True:
@@ -179,7 +181,7 @@ class LineFollowing:
 
             time.sleep(1)
             
-            self.movement.tturn_right_relpos(p = 100, s = 100)
+            self.movement.tturn_right_relpos(p = 170, s = 100)
 
             while 'running' in self.movement.right_motor.state:
                 if self.check_black() == True:
