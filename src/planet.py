@@ -16,6 +16,16 @@ class Direction(IntEnum):
     WEST  = 270
 
 
+    def communication_direction_converter(direction):
+        if direction == N:
+            return Direction.NORTH
+        if direction==E:
+            return Direction.EAST
+        if direction==S:
+            return Direction.SOUTH
+        if direction == W: 
+            Direction.WEST
+
 # simple alias, no magic here
 Weight = int
 """ 
@@ -80,7 +90,7 @@ class Planet:
         visited = []
         univisited = {}
            
-        if self.node[start_coordinate] == self.:
+        if self.node[start_coordinate] == self.bla:
             path = []
             self.start_dict[1] = previous_node
             while previous_node is not None:

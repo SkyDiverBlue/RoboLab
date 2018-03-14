@@ -23,7 +23,7 @@ class LineFollowing:
         self.black_luminance_value = 0
         
         self.offset = 0
-        self.status = free
+
 
         self.crossection_array = [0,0,0]
         self.compass_array = ['','','']
@@ -55,7 +55,7 @@ class LineFollowing:
         self.movement.tright_run_timed(t = 1000, s = 80)
                
         #robot stops when it detects offset as luminance value
-        if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue <= self.offset+6:
+        if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue == self.offset:
 
             self.movement.stop_run_timed()
         
@@ -65,14 +65,14 @@ class LineFollowing:
     def line_following(self):
         ev3.Sound.speak('calibration complete')
 
-        speed_base = 125
+        speed_base = 115
 
         last_error = 0
         derivative = 0
         integral = 0
         
 
-        Kp = 0.05 #Constant for the proportional controller (increase -> sharper turns, decrease -> smoother turns)
+        Kp = 0.045 #Constant for the proportional controller (increase -> sharper turns, decrease -> smoother turns
         Ki = 0.05 #Contant with intergral (summ of running errors)
         Kd = 0.8 #Constant with derivative (rate of change of the proportional value)
                 
@@ -82,6 +82,7 @@ class LineFollowing:
         #If luminance decreases -> wobble left
         
         while True:
+            #self.touch_sensor()
             self.odometry.odometry_calculations(self.movement.left_motor, self.movement.right_motor)
             #print(self.odometry.heading_degrees, self.odometry.position_x, self.odometry.position_y)
             colour = self.colour_sensor.bin_data('hhh')
@@ -108,44 +109,38 @@ class LineFollowing:
      
           
     def check_black(self):
-        if (0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue) == self.black_luminance_value+6:
+        if (0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue) <= self.black_luminance_value+6:
                 print('black line')
                 return True
         return False          
 
-    def touch_sensor(self):
+  #  def touch_sensor(self):
 #Integration Touch Sensor, untested
-        if self.left_touch_sensor.value() ==1 or self.right_touch_sensor.value() == 1: 
-            self.status = blocked
-            ev3.Sound.speak('path blocked')
-            print('a')
-            self.movement.stop_run_timed()
-            print('b')
-            print('c')
-            self.movement.backward_relpos(p = 50 , s = 50)
-            self.movement.wait_left()
-            print('d')
-            self.movement.stop_run_timed()
-            print('f')
-            self.movement.tturn_left_relpos(p = 600, s = 100)
-            print('g')
-            while 'running' in self.movement.left_motor.state:
-                if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue <= self.offset + 7:
-                    print('offset')
-                    self.movement.stop_run_timed()
-                    break
-            return True
-        else:
-            [].
-            return False
-                   
+        #if self.left_touch_sensor.value() ==1 and self.right_touch_sensor.value() == 1: 
+         #   ev3.Sound.speak('path blocked')
+       
+           # self.movement.stop_run_timed()
+            
+            #self.movement.backward_relpos(p = 50 , s = 50)
+           # time.sleep(1)
+           
+            #self.movement.tturn_left_relpos(p = 600, s = 100)
+           
+           # while 'running' in self.movement.left_motor.state:
+              #  if 0.2126*self.colour_sensor.red+0.7152*self.colour_sensor.green+0.0722*self.colour_sensor.blue <= self.offset + 7:
+                #    print('offset')
+                #    self.movement.stop_run_timed()
+                  #  break                  
 
                
     def path_recognising(self):
         print("Entered path-recognising")
         if (self.colour_sensor.bin_data('hhh')[0] < 60 and self.colour_sensor.bin_data('hhh')[2] > 109) or (self.colour_sensor.bin_data('hhh')[0] > 120 and self.colour_sensor.bin_data('hhh')[2] < 50): 
             
-            print('{},{}'.format(self.odometry.heading_degrees,self.odometry.compass))  #printing position from odometry      
+            print('{},{}'.format(self.odometry.heading_degrees,self.odometry.compass_directions))  #printing position from odometry      
+            
+            self.odometry.compass()
+
             self.odometry.coordinates_x = self.odometry.coordinates_x
             self.odometry.coordinates_y = self.odometry.coordinates_y
 
@@ -207,28 +202,28 @@ class LineFollowing:
             print(self.compass_array)
 
     def intersection_compass(self):
-        if self.odometry.compass == 'N': #if initial direction = North
+        if self.odometry.compass_directions == 'N': #if initial direction = North
             if self.crossection_array[0] == 1:
                 self.compass_array[0] = 'W'
             if self.crossection_array[1] == 1:
                 self.compass_array[1] = 'N'
             if self.crossection_array[2] == 1:
                 self.compass_array[2] = 'E'
-        if self.odometry.compass == 'W': #if initial direction = West
+        if self.odometry.compass_directions == 'W': #if initial direction = West
             if self.crossection_array[0] == 1:
                 self.compass_array[0] = 'S'
             if self.crossection_array[1] == 1:
                 self.compass_array[1] = 'W'
             if self.crossection_array[2] == 1:
                 self.compass_array[2] = 'N'
-        if self.odometry.compass == 'E': #if initial direction = East
+        if self.odometry.compass_directions == 'E': #if initial direction = East
             if self.crossection_array[0] == 1:
                 self.compass_array[0] = 'N'
             if self.crossection_array[1] == 1:
                 self.compass_array[1] = 'E'
             if self.crossection_array[2] == 1:
                 self.compass_array[2] = 'S'
-        if self.odometry.compass == 'S': #if initial direction = East
+        if self.odometry.compass_directions == 'S': #if initial direction = East
             if self.crossection_array[0] == 1:
                 self.compass_array[0] = 'E'
             if self.crossection_array[1] == 1:

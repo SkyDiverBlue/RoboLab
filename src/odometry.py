@@ -21,6 +21,7 @@ class Odometry:
         self.position_y = 0
 
         self.compass_directions= 'N'
+        self.invertcompass_directions = 'S'
         
 
 
@@ -85,7 +86,7 @@ class Odometry:
         else: 
             self.compass_directions = 'W'
 
-def invert_compass(self):
+    def invert_compass(self):
         modulo_calculation = self.heading_degrees % 360
         
         if modulo_calculation > 45 and modulo_calculation <= 135:
